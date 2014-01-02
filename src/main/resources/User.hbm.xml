@@ -1,0 +1,36 @@
+<hibernate-mapping
+        xmlns="http://www.hibernate.org/xsd/hibernate-mapping"
+        xsi:schemaLocation="http://www.hibernate.org/xsd/hibernate-mapping
+                            http://www.hibernate.org/xsd/hibernate-mapping-4.0.xsd"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <class name="com.nerj.oop.realty.model.User" table="user">
+        <id name="id" column="user_id" type="java.lang.Long">
+            <generator class="increment" />
+        </id>
+        <property name="username" column="username" type="java.lang.String" />
+        <property name="password" column="password" type="java.lang.String" />
+        <property name="name" column="name" type="java.lang.String" />
+
+        <joined-subclass name="com.nerj.oop.realty.model.Employee">
+            <key column="user_id" />
+            <property name="position" column="position" type="java.lang.String" />
+        </joined-subclass>
+
+        <joined-subclass name="com.nerj.oop.realty.model.Customer">
+            <key column="user_id" />
+            <property name="phone" column="phone" type="java.lang.String" />
+
+            <joined-subclass name="com.nerj.oop.realty.model.NaturalPerson">
+                <key column="user_id" />
+                <property name="passport" column="passport" type="java.lang.String" />
+            </joined-subclass>
+
+            <joined-subclass name="com.nerj.oop.realty.model.CorporatePersonhood">
+                <key column="user_id" />
+                <property name="organization" column="organization" type="java.lang.String" />
+                <property name="corporateAddress" column="corporate_address" type="java.lang.String" />
+            </joined-subclass>
+        </joined-subclass>
+
+    </class>
+</hibernate-mapping>
