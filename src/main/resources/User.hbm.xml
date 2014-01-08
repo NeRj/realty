@@ -1,34 +1,34 @@
-<hibernate-mapping
-        xmlns="http://www.hibernate.org/xsd/hibernate-mapping"
-        xsi:schemaLocation="http://www.hibernate.org/xsd/hibernate-mapping
-                            http://www.hibernate.org/xsd/hibernate-mapping-4.0.xsd"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <class name="com.nerj.oop.realty.model.User" table="user">
-        <id name="id" column="user_id" type="java.lang.Long">
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.nerj.oop.realty.model.User">
+        <id name="id" column="user_id">
             <generator class="increment" />
         </id>
-        <property name="username" column="username" type="java.lang.String" />
-        <property name="password" column="password" type="java.lang.String" />
-        <property name="name" column="name" type="java.lang.String" />
+        <property name="username" column="username" />
+        <property name="password" column="password" />
+        <property name="name" column="name" />
 
         <joined-subclass name="com.nerj.oop.realty.model.Employee">
             <key column="user_id" />
-            <property name="position" column="position" type="java.lang.String" />
+            <property name="position" column="position" />
         </joined-subclass>
 
         <joined-subclass name="com.nerj.oop.realty.model.Customer">
             <key column="user_id" />
-            <property name="phone" column="phone" type="java.lang.String" />
+            <property name="phone" column="phone" />
 
             <joined-subclass name="com.nerj.oop.realty.model.NaturalPerson">
                 <key column="user_id" />
-                <property name="passport" column="passport" type="java.lang.String" />
+                <property name="passport" column="passport" />
             </joined-subclass>
 
             <joined-subclass name="com.nerj.oop.realty.model.CorporatePersonhood">
                 <key column="user_id" />
-                <property name="organization" column="organization" type="java.lang.String" />
-                <property name="corporateAddress" column="corporate_address" type="java.lang.String" />
+                <property name="organization" column="organization" />
+                <property name="corporateAddress" column="corporate_address" />
             </joined-subclass>
         </joined-subclass>
 

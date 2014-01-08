@@ -4,7 +4,7 @@ package com.nerj.oop.realty.model;
  * Модель недвижимости
  */
 public class Realty {
-    private Long id;
+    private Integer id;
     private String name;
     private String address;
     private Double area;
