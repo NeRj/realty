@@ -19,15 +19,18 @@
         <joined-subclass name="com.nerj.oop.realty.model.Customer">
             <key column="user_id" />
             <property name="phone" column="phone" />
+            <property name="additionalInfo" column="additional_info" />
 
             <joined-subclass name="com.nerj.oop.realty.model.NaturalPerson">
                 <key column="user_id" />
                 <property name="passport" column="passport" />
+                <property name="birthDate" column="birth_date" />
             </joined-subclass>
 
             <joined-subclass name="com.nerj.oop.realty.model.CorporatePersonhood">
                 <key column="user_id" />
                 <property name="organization" column="organization" />
+                <property name="foundationDate" column="foundation_date" />
                 <property name="corporateAddress" column="corporate_address" />
             </joined-subclass>
         </joined-subclass>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+    <class name="com.nerj.oop.realty.model.Realty">
+        <id name="id" column="realty_id">
+            <generator class="increment" />
+        </id>
+        <property name="name" column="name" />
+        <property name="address" column="address" />
+        <property name="area" column="area" />
+        <property name="numberOfRooms" column="number_of_rooms" />
+
+        <joined-subclass name="com.nerj.oop.realty.model.CommercialRealty">
+            <key column="realty_id" />
+            <property name="type" column="type" />
+            <property name="storey" column="storey" />
+        </joined-subclass>
+
+        <joined-subclass name="com.nerj.oop.realty.model.PrivateSectorRealty">
+            <key column="realty_id" />
+            <property name="neighborhoodArea" column="neighborhood_area" />
+            <property name="numberOfStoreys" column="number_of_storeys" />
+            <property name="numberOfWC" column="number_of_WC" />
+            <property name="residentialArea" column="residential_area" />
+        </joined-subclass>
+
+        <joined-subclass name="com.nerj.oop.realty.model.ResidentialRealty">
+            <key column="realty_id" />
+            <property name="type" column="type" />
+            <property name="residentialArea" column="residential_area" />
+            <property name="kitchenArea" column="kitchen_area" />
+            <property name="typeWC" column="type_WC" />
+        </joined-subclass>
+
+    </class>
+</hibernate-mapping>

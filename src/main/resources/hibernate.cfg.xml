@@ -25,6 +25,9 @@
         <!-- Drop and re-create the database schema on startup -->
         <!--<property name="hbm2ddl.auto">create-drop</property>-->
         <property name="hbm2ddl.auto">update</property>
+
         <mapping resource="User.hbm.xml"/>
+        <mapping resource="Realty.hbm.xml"/>
+
     </session-factory>
 </hibernate-configuration>
