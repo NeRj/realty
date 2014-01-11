@@ -33,15 +33,15 @@ public class UsersServlet extends javax.servlet.http.HttpServlet {
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    }
-
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         configureSessionFactory();
 
         Session session = null;
-        Transaction tx=null;
+        Transaction tx = null;
 
         session = sessionFactory.openSession();
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
     }
 }

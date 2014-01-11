@@ -8,9 +8,17 @@
         <servlet-name>UsersServlet</servlet-name>
         <servlet-class>com.nerj.oop.realty.servlet.UsersServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>LoginServlet</servlet-name>
+        <servlet-class>com.nerj.oop.realty.servlet.LoginServlet</servlet-class>
+    </servlet>
 
     <servlet-mapping>
         <servlet-name>UsersServlet</servlet-name>
         <url-pattern>/users</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/all</url-pattern>
     </servlet-mapping>
 </web-app>
