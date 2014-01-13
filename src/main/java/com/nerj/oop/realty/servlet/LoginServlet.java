@@ -1,5 +1,6 @@
 package com.nerj.oop.realty.servlet;
 
+import com.nerj.oop.realty.exception.LoginFailedException;
 import com.nerj.oop.realty.model.User;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -16,8 +17,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Properties;
 
 /**
  * Created by LipenVK on 11.01.14.
@@ -34,7 +33,7 @@ public class LoginServlet extends HttpServlet {
         return sessionFactory;
     }
 
-    private static String page = "realty.jsp";
+    private static String page = "login.jsp";
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         configureSessionFactory();
@@ -43,20 +42,18 @@ public class LoginServlet extends HttpServlet {
         Transaction tx = null;
 
         response.setContentType("text/html");
-        request.setAttribute("username", request.getParameter("username"));
-        request.setAttribute("password", request.getParameter("password"));
 
         try {
             session = sessionFactory.openSession();
-            request.setAttribute("log", "session");
             tx = session.beginTransaction();
-            request.setAttribute("log", "tx");
 
             User user = (User) session.createCriteria(User.class)
                     .add(Restrictions.eq("username", request.getParameter("username").toLowerCase()))
                     .add(Restrictions.eq("password", request.getParameter("password")))
                     .uniqueResult();
-            request.setAttribute("user", user);
+            if (user != null)
+                request.setAttribute("userid", user.getId());
+            else throw new LoginFailedException();
 
             session.flush();
             tx.commit();
