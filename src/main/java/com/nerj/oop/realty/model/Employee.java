@@ -18,7 +18,7 @@ public class Employee extends User {
         setId(null);
         setUsername(username);
         setPassword(password);
-        setUsername(name);
+        setName(name);
         setPosition(position);
     }
 

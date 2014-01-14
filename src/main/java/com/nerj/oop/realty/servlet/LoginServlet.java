@@ -33,7 +33,7 @@ public class LoginServlet extends HttpServlet {
         return sessionFactory;
     }
 
-    private static String page = "login.jsp";
+//    private static String page = "login.jsp";
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         configureSessionFactory();
@@ -41,6 +41,7 @@ public class LoginServlet extends HttpServlet {
         Session session = null;
         Transaction tx = null;
 
+        request.setCharacterEncoding("UTF-8");
         response.setContentType("text/html");
 
         try {
@@ -52,7 +53,7 @@ public class LoginServlet extends HttpServlet {
                     .add(Restrictions.eq("password", request.getParameter("password")))
                     .uniqueResult();
             if (user != null)
-                request.setAttribute("userid", user.getId());
+                request.getSession().setAttribute("userid", user.getId());
             else throw new LoginFailedException();
 
             session.flush();
@@ -66,8 +67,10 @@ public class LoginServlet extends HttpServlet {
                 session.close();
         }
 
-        RequestDispatcher dispatcher = request.getRequestDispatcher(page);
-        if (dispatcher != null)
-            dispatcher.forward(request, response);
+//        RequestDispatcher dispatcher = request.getRequestDispatcher(page);
+//        if (dispatcher != null)
+//            dispatcher.forward(request, response);
+
+        response.sendRedirect("menu.jsp");
     }
 }
