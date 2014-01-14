@@ -1,17 +1,14 @@
 package com.nerj.oop.realty.servlet;
 
-import com.nerj.oop.realty.exception.LoginFailedException;
-import com.nerj.oop.realty.model.User;
+import com.nerj.oop.realty.model.Employee;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
-import org.hibernate.criterion.Restrictions;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.service.ServiceRegistryBuilder;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,9 +16,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * Created by LipenVK on 11.01.14.
+ * Created by LipenVK on 13.01.14.
  */
-public class LoginServlet extends HttpServlet {
+public class RegistrationServlet extends HttpServlet {
     private static SessionFactory sessionFactory = null;
     private static SessionFactory configureSessionFactory() throws HibernateException {
         Configuration configuration = new Configuration();
@@ -33,7 +30,7 @@ public class LoginServlet extends HttpServlet {
         return sessionFactory;
     }
 
-//    private static String page = "login.jsp";
+//    private static String page = "register.jsp";
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         configureSessionFactory();
@@ -48,13 +45,9 @@ public class LoginServlet extends HttpServlet {
             session = sessionFactory.openSession();
             tx = session.beginTransaction();
 
-            User user = (User) session.createCriteria(User.class)
-                    .add(Restrictions.eq("username", request.getParameter("username").toLowerCase()))
-                    .add(Restrictions.eq("password", request.getParameter("password")))
-                    .uniqueResult();
-            if (user != null)
-                request.getSession().setAttribute("userid", user.getId());
-            else throw new LoginFailedException();
+            Employee employee = new Employee(request.getParameter("username"), request.getParameter("password"),
+                                                request.getParameter("name"), request.getParameter("position"));
+            session.save(employee);
 
             session.flush();
             tx.commit();
@@ -71,6 +64,10 @@ public class LoginServlet extends HttpServlet {
 //        if (dispatcher != null)
 //            dispatcher.forward(request, response);
 
-        response.sendRedirect("menu.jsp");
+        response.sendRedirect("index.jsp");
+    }
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
     }
 }

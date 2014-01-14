@@ -4,17 +4,17 @@ package com.nerj.oop.realty.model;
  * Модель жилой недвижимости
  */
 public class ResidentialRealty extends Realty {
-    private String type;
+    private String subtype;
     private Double residentialArea;
     private Double kitchenArea;
     private String typeWC;
 
-    public String getType() {
-        return type;
+    public String getSubtype() {
+        return subtype;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setSubtype(String subtype) {
+        this.subtype = subtype;
     }
 
     public Double getResidentialArea() {

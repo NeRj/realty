@@ -7,6 +7,7 @@
         <id name="id" column="realty_id">
             <generator class="increment" />
         </id>
+        <property name="type" column="type" />
         <property name="name" column="name" />
         <property name="address" column="address" />
         <property name="area" column="area" />
@@ -14,7 +15,7 @@
 
         <joined-subclass name="com.nerj.oop.realty.model.CommercialRealty">
             <key column="realty_id" />
-            <property name="type" column="type" />
+            <property name="subtype" column="subtype" />
             <property name="storey" column="storey" />
         </joined-subclass>
 
@@ -28,7 +29,7 @@
 
         <joined-subclass name="com.nerj.oop.realty.model.ResidentialRealty">
             <key column="realty_id" />
-            <property name="type" column="type" />
+            <property name="subtype" column="subtype" />
             <property name="residentialArea" column="residential_area" />
             <property name="kitchenArea" column="kitchen_area" />
             <property name="typeWC" column="type_WC" />

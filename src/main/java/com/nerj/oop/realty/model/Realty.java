@@ -5,6 +5,7 @@ package com.nerj.oop.realty.model;
  */
 public class Realty {
     private Integer id;
+    private String type;
     private String name;
     private String address;
     private Double area;
@@ -16,6 +17,14 @@ public class Realty {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getName() {

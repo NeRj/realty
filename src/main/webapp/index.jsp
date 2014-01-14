@@ -5,11 +5,11 @@
 </head>
 <body>
 <h2>Вход в систему</h2>
-<form action="all" method="post">
+<form action="login" method="post">
     <label>Имя пользователя: <input name="username" type="text"></label>
     <label>Пароль: <input name="password" type="password"></label>
-    <input type="submit">
+    <input type="submit" value="Вход">
 </form>
-<a href="registration">Регистрация</a>
+<a href="registration.jsp">Регистрация</a>
 </body>
 </html>
