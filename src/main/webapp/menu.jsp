@@ -4,6 +4,10 @@
     <title>Меню</title>
 </head>
 <body>
-<%=session.getAttribute("userid")%>
+<%
+    if (session.getAttribute("userid") == null) response.sendRedirect("index.jsp");
+%>
+<a href="realty">Вся недвижимость</a>
+<a href="customers">Список клиентов</a>
 </body>
 </html>

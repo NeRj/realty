@@ -6,7 +6,7 @@
   <display-name>Archetype Created Web Application</display-name>
     <servlet>
         <servlet-name>UsersServlet</servlet-name>
-        <servlet-class>com.nerj.oop.realty.servlet.UsersServlet</servlet-class>
+        <servlet-class>com.nerj.oop.realty.servlet.CustomersServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
@@ -19,7 +19,7 @@
 
     <servlet-mapping>
         <servlet-name>UsersServlet</servlet-name>
-        <url-pattern>/users</url-pattern>
+        <url-pattern>/customers</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>

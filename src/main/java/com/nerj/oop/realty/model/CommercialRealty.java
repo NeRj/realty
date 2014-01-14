@@ -4,15 +4,15 @@ package com.nerj.oop.realty.model;
  * Модель коммерческой недвижимости
  */
 public class CommercialRealty extends Realty {
-    private String type;
+    private String subtype;
     private Integer storey;
 
-    public String getType() {
-        return type;
+    public String getSubtype() {
+        return subtype;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setSubtype(String subtype) {
+        this.subtype = subtype;
     }
 
     public Integer getStorey() {
