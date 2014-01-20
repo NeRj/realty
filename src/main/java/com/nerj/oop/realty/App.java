@@ -1,9 +1,14 @@
 package com.nerj.oop.realty;
 
+import com.nerj.oop.realty.dao.CustomerDAO;
+import com.nerj.oop.realty.dao.CustomerDAOImpl;
+import com.nerj.oop.realty.dao.RealtyDAO;
+import com.nerj.oop.realty.dao.RealtyDAOImpl;
+import com.nerj.oop.realty.exception.EmptyResultException;
 import com.nerj.oop.realty.exception.EmptyStringException;
 import com.nerj.oop.realty.exception.IncorrectChoiceException;
 import com.nerj.oop.realty.exception.LoginFailedException;
-import com.nerj.oop.realty.model.User;
+import com.nerj.oop.realty.model.*;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -12,6 +17,9 @@ import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.service.ServiceRegistryBuilder;
+
+import java.io.IOException;
+import java.util.List;
 
 /**
  * Created by vlad on 15.01.14.
@@ -28,8 +36,14 @@ public class App {
         return sessionFactory;
     }
 
+
+    private static RealtyDAO realtyDAO = new RealtyDAOImpl();
+    private static CustomerDAO customerDAO = new CustomerDAOImpl();
+
+
     private static Session session = null;
     private static Transaction tx = null;
+
 
     public static void main(String[] args){
 
@@ -43,6 +57,11 @@ public class App {
 
         User user = null;
 
+//        try {
+//            Runtime.getRuntime().exec("clear");
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
         System.out.println("Добро пожаловать! Пожалуйста, авторизируйтесь.");
         while (true) {
             System.out.print("Имя пользователя: ");
@@ -98,32 +117,54 @@ public class App {
 
         if (choice == null || choice.equals(""))
             throw new EmptyStringException();
-        switch (choice.charAt(0)){
-            case 'q' :  isQuit = true;
-                        System.out.println("До свидания, " + username + ".");
-                        break;
-            case '1' :  getResidentialRealty();
-                        break;
-            case '2' :  getPrivateSectorRealty();
-                        break;
-            case '3' :  getCommercialRealty();
-                        break;
-            case '4' :  getCustomers();
-                        break;
-            case '5' :  getEmployees();
-                        break;
-            default :   throw new IncorrectChoiceException();
+        try {
+            switch (choice.charAt(0)){
+                case 'q' :  isQuit = true;
+                            System.out.println("До свидания, " + username + ".");
+                            break;
+                case '1' :  showResidentialRealty();
+                            break;
+                case '2' :  showPrivateSectorRealty();
+                            break;
+                case '3' :  showCommercialRealty();
+                            break;
+                case '4' :  showCustomers();
+                            break;
+                case '5' :  showEmployees();
+                            break;
+                default :   throw new IncorrectChoiceException();
+            }
+        } catch (EmptyResultException ex){
+            ex.printStackTrace();
         }
         return isQuit;
     }
 
-    public static void getResidentialRealty(){}
+    public static void showResidentialRealty() throws EmptyResultException{
+        List<ResidentialRealty> list = realtyDAO.getResidentialRealty();
+        if (list == null) throw new EmptyResultException();
+    }
 
-    public static void getPrivateSectorRealty(){}
+    public static void showPrivateSectorRealty() throws EmptyResultException{
+        List<PrivateSectorRealty> list = realtyDAO.getPrivateSectorRealty();
+        if (list == null) throw new EmptyResultException();
+    }
 
-    public static void getCommercialRealty(){}
+    public static void showCommercialRealty() throws EmptyResultException{
+        List<CommercialRealty> list = realtyDAO.getCommercialRealty();
+        if (list == null) throw new EmptyResultException();
+    }
 
-    public static void getCustomers(){}
+    public static void showCustomers() throws EmptyResultException{
+        List<Customer> list = customerDAO.getCustomers();
+        if (list == null) throw new EmptyResultException();
+    }
 
-    public static void getEmployees(){}
+    public static void showEmployees() throws EmptyResultException{
+        List<Employee> list = customerDAO.getEmployees();
+        if (list == null) throw new EmptyResultException();
+        System.out.println("id\tимя\tдолжность");
+        for (Employee employee : list)
+            System.out.println(employee.getId() + "\t" + employee.getName() + "\t" + employee.getPosition());
+    }
 }
