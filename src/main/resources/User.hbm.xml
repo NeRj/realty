@@ -19,6 +19,7 @@
         <joined-subclass name="com.nerj.oop.realty.model.Customer">
             <key column="user_id" />
             <property name="phone" column="phone" />
+            <property name="type" column="type" />
             <property name="additionalInfo" column="additional_info" />
 
             <joined-subclass name="com.nerj.oop.realty.model.NaturalPerson">

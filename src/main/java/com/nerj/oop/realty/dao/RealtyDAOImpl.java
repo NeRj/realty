@@ -44,16 +44,25 @@ public class RealtyDAOImpl implements RealtyDAO {
 
     @Override
     public List<ResidentialRealty> getResidentialRealty() {
-        return null;
+        tx = session.beginTransaction();
+        List<ResidentialRealty> list = session.createCriteria(ResidentialRealty.class).list();
+        tx.commit();
+        return list;
     }
 
     @Override
     public List<PrivateSectorRealty> getPrivateSectorRealty() {
-        return null;
+        tx = session.beginTransaction();
+        List<PrivateSectorRealty> list = session.createCriteria(PrivateSectorRealty.class).list();
+        tx.commit();
+        return list;
     }
 
     @Override
     public List<CommercialRealty> getCommercialRealty() {
-        return null;
+        tx = session.beginTransaction();
+        List<CommercialRealty> list = session.createCriteria(CommercialRealty.class).list();
+        tx.commit();
+        return list;
     }
 }

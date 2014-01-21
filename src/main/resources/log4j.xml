@@ -11,11 +11,11 @@
     </appender>
 
     <logger name="org.hibernate" additivity="false">
-        <level value="ERROR" />
+        <level value="FATAL" />
         <appender-ref ref="console" />
     </logger>
     <logger name="org.jboss" additivity="false">
-        <level value="ERROR" />
+        <level value="FATAL" />
         <appender-ref ref="console" />
     </logger>
 
