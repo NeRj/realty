@@ -4,6 +4,9 @@ package com.nerj.oop.realty.model;
  * Модель жилой недвижимости
  */
 public class ResidentialRealty extends Realty {
+    public static String[] FIELD_NAMES =
+            {"ID", "Название", "Адрес", "Площадь", "Комнаты", "Жил. площадь", "Площадь кухни",	"Санузел",	"Тип"};
+
     private String subtype;
     private Double residentialArea;
     private Double kitchenArea;
@@ -39,5 +42,10 @@ public class ResidentialRealty extends Realty {
 
     public void setTypeWC(String typeWC) {
         this.typeWC = typeWC;
+    }
+
+    public Object[] toArray(){
+        return new Object[] {getId(), getName(), getAddress(), getArea(), getNumberOfRooms(),
+                getResidentialArea(), getKitchenArea(), getTypeWC(), getSubtype()};
     }
 }

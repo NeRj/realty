@@ -6,6 +6,8 @@ import java.util.Date;
  * Модель физического лица
  */
 public class NaturalPerson extends Customer {
+    public static String[] FIELD_NAMES = {"ID", "Имя", "Телефон", "Паспорт", "Дата рождения", "Доп. инф-ция"};
+
     private String passport;
     private Date birthDate;
 
@@ -23,5 +25,9 @@ public class NaturalPerson extends Customer {
 
     public void setBirthDate(Date birthDate) {
         this.birthDate = birthDate;
+    }
+
+    public Object[] toArray(){
+        return new Object[] {getId(), getName(), getPhone(), getPassport(), getBirthDate(), getAdditionalInfo()};
     }
 }

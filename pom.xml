@@ -20,11 +20,11 @@
             <artifactId>hibernate-core</artifactId>
             <version>4.2.0.Final</version>
         </dependency>
-        <!--<dependency>-->
-            <!--<groupId>javax.servlet</groupId>-->
-            <!--<artifactId>servlet-api</artifactId>-->
-            <!--<version>2.5</version>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>dnl.utils</groupId>
+            <artifactId>j-text-utils</artifactId>
+            <version>0.3.3</version>
+        </dependency>
 
         <dependency>
             <groupId>log4j</groupId>
@@ -37,6 +37,10 @@
         <repository>
             <id>hibernatesqlite-maven</id>
             <url>https://hibernate-sqlite.googlecode.com/svn/trunk/mavenrepo</url>
+        </repository>
+        <repository>
+            <id>d-maven</id>
+            <url>http://d-maven.googlecode.com/svn/trunk/repo</url>
         </repository>
     </repositories>
 

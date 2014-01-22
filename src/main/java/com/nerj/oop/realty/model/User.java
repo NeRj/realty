@@ -4,6 +4,8 @@ package com.nerj.oop.realty.model;
  * Модель пользователя системы
  */
 public class User {
+    public static String[] FIELD_NAMES = {"ID", "Имя"};
+
     private Integer id;
     private String name;
     private String username;
@@ -39,5 +41,9 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Object[] toArray(){
+        return new Object[] {getId(), getName()};
     }
 }

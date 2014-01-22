@@ -4,6 +4,8 @@ package com.nerj.oop.realty.model;
  * Модель работника риелторской организации
  */
 public class Employee extends User {
+    public static String[] FIELD_NAMES = {"ID", "Имя", "Должность"};
+
     private String position;
 
     public Employee(){
@@ -28,5 +30,9 @@ public class Employee extends User {
 
     public void setPosition(String position) {
         this.position = position;
+    }
+
+    public Object[] toArray(){
+        return new Object[] {getId(), getName(), getPosition()};
     }
 }

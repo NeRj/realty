@@ -4,6 +4,9 @@ package com.nerj.oop.realty.model;
  * Модель недвижимости частного сектора
  */
 public class PrivateSectorRealty extends Realty {
+    public static String[] FIELD_NAMES =
+            {"ID", "Название", "Адрес", "Площадь", "Комнаты", "Жил. площадь", "Прилегающая площадь", "Этажность", "Санузлы"};
+
     private Double residentialArea;
     private Double neighborhoodArea;
     private Integer numberOfStoreys;
@@ -39,5 +42,10 @@ public class PrivateSectorRealty extends Realty {
 
     public void setNumberOfWC(Integer numberOfWC) {
         this.numberOfWC = numberOfWC;
+    }
+
+    public Object[] toArray(){
+        return new Object[] {getId(), getName(), getAddress(), getArea(), getNumberOfRooms(),
+                getResidentialArea(), getNeighborhoodArea(), getNumberOfStoreys(), getNumberOfWC()};
     }
 }

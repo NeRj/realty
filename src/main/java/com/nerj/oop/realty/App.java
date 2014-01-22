@@ -1,14 +1,14 @@
 package com.nerj.oop.realty;
 
-import com.nerj.oop.realty.dao.CustomerDAO;
-import com.nerj.oop.realty.dao.CustomerDAOImpl;
-import com.nerj.oop.realty.dao.RealtyDAO;
-import com.nerj.oop.realty.dao.RealtyDAOImpl;
+import com.nerj.oop.realty.dao.*;
+import com.nerj.oop.realty.dao.UserDAOImpl;
+import com.nerj.oop.realty.dao.UserDAO;
 import com.nerj.oop.realty.exception.EmptyResultException;
 import com.nerj.oop.realty.exception.EmptyStringException;
 import com.nerj.oop.realty.exception.IncorrectChoiceException;
 import com.nerj.oop.realty.exception.LoginFailedException;
 import com.nerj.oop.realty.model.*;
+import dnl.utils.text.table.TextTable;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -18,7 +18,6 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.service.ServiceRegistryBuilder;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -38,7 +37,7 @@ public class App {
 
 
     private static RealtyDAO realtyDAO = new RealtyDAOImpl();
-    private static CustomerDAO customerDAO = new CustomerDAOImpl();
+    private static UserDAO userDAO = new UserDAOImpl();
 
 
     private static Session session = null;
@@ -75,6 +74,7 @@ public class App {
             } catch (LoginFailedException ex){
                 ex.printStackTrace();
                 tx.rollback();
+
             }
         }
 
@@ -107,6 +107,7 @@ public class App {
             throw new LoginFailedException("Ошибка авторизации! Пользователь " + username + " не найден.");
 
         tx.commit();
+        session.close();
         return user;
     }
 
@@ -148,7 +149,8 @@ public class App {
                             break;
                 default :   throw new IncorrectChoiceException();
             }
-        }
+        } catch (EmptyStringException ex) { ex.printStackTrace(); }
+        catch (IncorrectChoiceException ex) { ex.printStackTrace(); }
         return isQuit;
     }
 
@@ -161,77 +163,84 @@ public class App {
             throw new EmptyResultException();
         if (!residentialRealties.isEmpty()){
             System.out.println("КВАРТИРЫ:");
-            System.out.println("id\tназвание\tадрес\tплощадь\tкомнаты\tжил. площадь\tплощадь кухни\tсанузел\tтип");
-            for (ResidentialRealty residentialRealty : residentialRealties)
-                System.out.println(residentialRealty.getId() + "\t" + residentialRealty.getName() + "\t" +
-                                    residentialRealty.getAddress() + "\t" + residentialRealty.getArea() + "\t" +
-                                    residentialRealty.getNumberOfRooms() + "\t" + residentialRealty.getResidentialArea() + "\t" +
-                                    residentialRealty.getKitchenArea() + "\t" + residentialRealty.getTypeWC() + "\t" +
-                                    residentialRealty.getSubtype());
+            Object[][] data = new Object[residentialRealties.size()][ResidentialRealty.FIELD_NAMES.length];
+            for (int i = 0; i < residentialRealties.size(); i++)
+                data[i] = residentialRealties.get(i).toArray();
+            printTable(ResidentialRealty.FIELD_NAMES, data);
         }
         if (!privateSectorRealties.isEmpty()){
             System.out.println("ЧАСТНЫЙ СЕКТОР:");
-            System.out.println("id\tназвание\tадрес\tплощадь\tкомнаты\tжил. площадь\tприлегающая площадь\tэтажность\tсанузлы");
-            for (PrivateSectorRealty privateSectorRealty : privateSectorRealties)
-                System.out.println(privateSectorRealty.getId() + "\t" + privateSectorRealty.getName() + "\t" +
-                        privateSectorRealty.getAddress() + "\t" + privateSectorRealty.getArea() + "\t" +
-                        privateSectorRealty.getNumberOfRooms() + "\t" + privateSectorRealty.getResidentialArea() + "\t" +
-                        privateSectorRealty.getNeighborhoodArea() + "\t" + privateSectorRealty.getNumberOfStoreys() + "\t" +
-                        privateSectorRealty.getNumberOfWC());
+            Object[][] data = new Object[privateSectorRealties.size()][PrivateSectorRealty.FIELD_NAMES.length];
+            for (int i = 0; i < privateSectorRealties.size(); i++)
+                data[i] = privateSectorRealties.get(i).toArray();
+            printTable(PrivateSectorRealty.FIELD_NAMES, data);
         }
         if (!residentialRealties.isEmpty()){
             System.out.println("НЕЖИЛАЯ НЕДВИЖИМОСТЬ:");
-            System.out.println("id\tназвание\tадрес\tплощадь\tкомнаты\tэтаж\tтип");
-            for (CommercialRealty commercialRealty : commercialRealties)
-                System.out.println(commercialRealty.getId() + "\t" + commercialRealty.getName() + "\t" +
-                        commercialRealty.getAddress() + "\t" + commercialRealty.getArea() + "\t" +
-                        commercialRealty.getNumberOfRooms() + "\t" + commercialRealty.getStorey() + "\t" +
-                        commercialRealty.getSubtype());
+            Object[][] data = new Object[residentialRealties.size()][ResidentialRealty.FIELD_NAMES.length];
+            for (int i = 0; i < residentialRealties.size(); i++)
+                data[i] = residentialRealties.get(i).toArray();
+            printTable(ResidentialRealty.FIELD_NAMES, data);
         }
     }
 
     public static void showCustomers() throws EmptyResultException{
-        List<CorporatePersonhood> corporatePersonhoods = customerDAO.getCorporatePersonhoods();
-        List<NaturalPerson> naturalPersons = customerDAO.getNaturalPersons();
+        List<CorporatePersonhood> corporatePersonhoods = userDAO.getCorporatePersonhoods();
+        List<NaturalPerson> naturalPersons = userDAO.getNaturalPersons();
         if (corporatePersonhoods.isEmpty() && naturalPersons.isEmpty()) throw new EmptyResultException();
         if (!naturalPersons.isEmpty()){
             System.out.println("КЛИЕНТЫ (ЧАСТНЫЕ ЛИЦА):");
-            System.out.println("id\tимя\tтелефон\tпаспорт\tдата рождения\tдоп. сведения");
-            for (NaturalPerson naturalPerson : naturalPersons)
-                System.out.println(naturalPerson.getId() + "\t" + naturalPerson.getName() + "\t" + naturalPerson.getPhone() + "\t" +
-                                    naturalPerson.getPassport() + "\t" + naturalPerson.getBirthDate() + "\t" +
-                                    naturalPerson.getAdditionalInfo());
+            Object[][] data = new Object[naturalPersons.size()][NaturalPerson.FIELD_NAMES.length];
+            for (int i = 0; i < naturalPersons.size(); i++)
+                data[i] = naturalPersons.get(i).toArray();
+            printTable(NaturalPerson.FIELD_NAMES, data);
         }
         if (!corporatePersonhoods.isEmpty()){
             System.out.println("КЛИЕНТЫ (ЮРИДИЧЕСКИЕ ЛИЦА):");
-            System.out.println("id\tимя\tтелефон\tорганизация\tдата регистрации\tюр. адрес\tдоп. сведения");
-            for (CorporatePersonhood corporatePersonhood : corporatePersonhoods)
-                System.out.println(corporatePersonhood.getId() + "\t" + corporatePersonhood.getName() + "\t" +
-                        corporatePersonhood.getPhone() + "\t" + corporatePersonhood.getOrganization() + "\t" +
-                        corporatePersonhood.getFoundationDate() + "\t" + corporatePersonhood.getCorporateAddress() + "\t" +
-                        corporatePersonhood.getAdditionalInfo());
+            Object[][] data = new Object[corporatePersonhoods.size()][CorporatePersonhood.FIELD_NAMES.length];
+            for (int i = 0; i < corporatePersonhoods.size(); i++)
+                data[i] = corporatePersonhoods.get(i).toArray();
+            printTable(CorporatePersonhood.FIELD_NAMES, data);
         }
     }
 
-    public static void showEmployees() throws EmptyResultException, EmptyStringException{
-        List<Employee> list = customerDAO.getEmployees();
+    public static void showEmployees() throws EmptyResultException, EmptyStringException, IncorrectChoiceException{
+        List<Employee> list = userDAO.listEmployees();
         if (list.isEmpty()) throw new EmptyResultException();
         System.out.println("ПОЛЬЗОВАТЕЛИ:");
-        System.out.println("id\tимя\tдолжность");
-        for (Employee employee : list)
-            System.out.println(employee.getId() + "\t" + employee.getName() + "\t" + employee.getPosition());
-        System.out.print("Для редактирования введите ID пользователя или '+' для добавления нового: ");
+        Object[][] data = new Object[list.size()][Employee.FIELD_NAMES.length];
+        for (int i = 0; i < list.size(); i++)
+            data[i] = list.get(i).toArray();
+        printTable(Employee.FIELD_NAMES, data);
+        System.out.print("e - изменить; d - удалить, a - добавить: ");
         String choice = System.console().readLine();
         if (choice == null || choice.equals(""))
             throw new EmptyStringException();
-        else if (choice.charAt(0) == '+')
+        else if (choice.charAt(0) == 'a')
             addEmployee();
-        else {
+        else if (choice.charAt(0) == 'd'){
+            System.out.print("Введите ID пользователя: ");
+            String subChoice = System.console().readLine();
+            if (subChoice == null || choice.equals(""))
+                throw new EmptyStringException();
             try {
-                Integer id = Integer.parseInt(choice);
+                Integer id = Integer.parseInt(subChoice);
+                deleteEmployee(id);
+            } catch (NumberFormatException e){
+                e.printStackTrace();
+            }
+        } else if (choice.charAt(0) == 'e'){
+            System.out.print("Введите ID пользователя: ");
+            String subChoice = System.console().readLine();
+            if (subChoice == null || choice.equals(""))
+                throw new EmptyStringException();
+            try {
+                Integer id = Integer.parseInt(subChoice);
                 editEmployee(id);
-            } catch (Exception ex){}
-        }
+            } catch (NumberFormatException e){
+                e.printStackTrace();
+            }
+        } else throw new IncorrectChoiceException();
     }
 
     public static void addRealty(){}
@@ -249,10 +258,44 @@ public class App {
         System.out.print("Должность: ");
         employee.setPosition(System.console().readLine());
 
-        tx = session.beginTransaction();
-        session.save(employee);
-        tx.commit();
+        userDAO.addEmployee(employee);
+        System.out.println("Пользователь добавлен!");
     }
 
-    public static void editEmployee(int id){}
+    public static void editEmployee(int id){
+        Employee employee = userDAO.getEmployee(id);
+
+        String in = null;
+        System.out.print("Имя пользователя [" + employee.getUsername() + "]: ");
+        in = System.console().readLine();
+        if (in != null && !in.isEmpty() && !in.equals(" "))
+            employee.setUsername(in);
+        System.out.print("Пароль [" + employee.getPassword() + "]: ");
+        in = System.console().readLine();
+        if (in != null && !in.isEmpty() && !in.equals(" "))
+            employee.setPassword(in);
+        System.out.print("Имя [" + employee.getName() + "]: ");
+        in = System.console().readLine();
+        if (in != null && !in.isEmpty() && !in.equals(" "))
+            employee.setName(in);
+        System.out.print("Должность [" + employee.getPosition() + "]: ");
+        in = System.console().readLine();
+        if (in != null && !in.isEmpty() && !in.equals(" "))
+            employee.setPosition(in);
+
+        userDAO.updateEmployee(employee);
+        System.out.println("Пользователь изменен!");
+    }
+
+    public static void deleteEmployee(int id){
+        userDAO.removeEmployee(id);
+        System.out.println("Пользователь удален!");
+    }
+
+
+    public static void printTable(String[] columnNames, Object[][] data){
+        TextTable tt = new TextTable(columnNames, data);
+        tt.setSort(0);
+        tt.printTable();
+    }
 }

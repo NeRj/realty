@@ -35,7 +35,6 @@ public class RealtyDAOImpl implements RealtyDAO {
     public RealtyDAOImpl(){
         try {
             configureSessionFactory();
-            session = sessionFactory.openSession();
         } catch (HibernateException ex){
             ex.printStackTrace();
             session = null;
@@ -44,25 +43,31 @@ public class RealtyDAOImpl implements RealtyDAO {
 
     @Override
     public List<ResidentialRealty> getResidentialRealty() {
+        session = sessionFactory.openSession();
         tx = session.beginTransaction();
         List<ResidentialRealty> list = session.createCriteria(ResidentialRealty.class).list();
         tx.commit();
+        session.close();
         return list;
     }
 
     @Override
     public List<PrivateSectorRealty> getPrivateSectorRealty() {
+        session = sessionFactory.openSession();
         tx = session.beginTransaction();
         List<PrivateSectorRealty> list = session.createCriteria(PrivateSectorRealty.class).list();
         tx.commit();
+        session.close();
         return list;
     }
 
     @Override
     public List<CommercialRealty> getCommercialRealty() {
+        session = sessionFactory.openSession();
         tx = session.beginTransaction();
         List<CommercialRealty> list = session.createCriteria(CommercialRealty.class).list();
         tx.commit();
+        session.close();
         return list;
     }
 }

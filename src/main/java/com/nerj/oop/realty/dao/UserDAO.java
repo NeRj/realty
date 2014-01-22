@@ -10,8 +10,12 @@ import java.util.List;
 /**
  * Created by vlad on 21.01.14.
  */
-public interface CustomerDAO {
+public interface UserDAO {
     public List<NaturalPerson> getNaturalPersons();
     public List<CorporatePersonhood> getCorporatePersonhoods();
-    public List<Employee> getEmployees();
+    public List<Employee> listEmployees();
+    public Employee getEmployee(int id);
+    public void addEmployee(Employee employee);
+    public void updateEmployee(Employee employee);
+    public void removeEmployee(int id);
 }

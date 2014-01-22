@@ -4,6 +4,8 @@ package com.nerj.oop.realty.model;
  * Модель недвижимости
  */
 public class Realty {
+    public static String[] FIELD_NAMES = {"ID", "Название", "Адрес", "Площадь", "Комнаты"};
+
     private Integer id;
     private String type;
     private String name;
@@ -57,5 +59,9 @@ public class Realty {
 
     public void setNumberOfRooms(Integer numberOfRooms) {
         this.numberOfRooms = numberOfRooms;
+    }
+
+    public Object[] toArray(){
+        return new Object[] {getId(), getName(), getAddress(), getArea(), getNumberOfRooms()};
     }
 }
