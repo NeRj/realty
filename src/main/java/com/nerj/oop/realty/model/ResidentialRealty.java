@@ -12,6 +12,32 @@ public class ResidentialRealty extends Realty {
     private Double kitchenArea;
     private String typeWC;
 
+    public ResidentialRealty(){
+        setId(null);
+        setName(null);
+        setAddress(null);
+        setArea(null);
+        setNumberOfRooms(null);
+        setType("residential");
+        setResidentialArea(null);
+        setKitchenArea(null);
+        setTypeWC(null);
+        setSubtype(null);
+    }
+
+    public ResidentialRealty(Realty realty){
+        setId(realty.getId());
+        setName(realty.getName());
+        setAddress(realty.getAddress());
+        setArea(realty.getArea());
+        setNumberOfRooms(realty.getNumberOfRooms());
+        setType(realty.getType());
+        setResidentialArea(null);
+        setKitchenArea(null);
+        setTypeWC(null);
+        setSubtype(null);
+    }
+
     public String getSubtype() {
         return subtype;
     }

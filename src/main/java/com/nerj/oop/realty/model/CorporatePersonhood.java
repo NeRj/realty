@@ -13,6 +13,45 @@ public class CorporatePersonhood extends Customer {
     private Date foundationDate;
     private String corporateAddress;
 
+    public CorporatePersonhood(){
+        setId(null);
+        setUsername(null);
+        setPassword(null);
+        setName(null);
+        setPhone(null);
+        setCorporateAddress(null);
+        setFoundationDate(null);
+        setOrganization(null);
+        setAdditionalInfo(null);
+        setType("corporate");
+    }
+
+    public CorporatePersonhood(Customer customer){
+        setId(customer.getId());
+        setUsername(customer.getUsername());
+        setPassword(customer.getPassword());
+        setName(customer.getName());
+        setPhone(customer.getPhone());
+        setCorporateAddress(null);
+        setFoundationDate(null);
+        setOrganization(null);
+        setAdditionalInfo(customer.getAdditionalInfo());
+        setType(customer.getType());
+    }
+
+    public CorporatePersonhood(CorporatePersonhood corporatePersonhood){
+        setId(corporatePersonhood.getId());
+        setUsername(corporatePersonhood.getUsername());
+        setPassword(corporatePersonhood.getPassword());
+        setName(corporatePersonhood.getName());
+        setPhone(corporatePersonhood.getPhone());
+        setCorporateAddress(corporatePersonhood.getCorporateAddress());
+        setFoundationDate(corporatePersonhood.getFoundationDate());
+        setOrganization(corporatePersonhood.getOrganization());
+        setAdditionalInfo(corporatePersonhood.getAdditionalInfo());
+        setType(corporatePersonhood.getType());
+    }
+
     public String getOrganization() {
         return organization;
     }

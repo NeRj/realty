@@ -11,6 +11,42 @@ public class NaturalPerson extends Customer {
     private String passport;
     private Date birthDate;
 
+    public NaturalPerson(){
+        setId(null);
+        setUsername(null);
+        setPassword(null);
+        setName(null);
+        setPhone(null);
+        setPassport(null);
+        setBirthDate(null);
+        setAdditionalInfo(null);
+        setType("corporate");
+    }
+
+    public NaturalPerson(Customer customer){
+        setId(customer.getId());
+        setUsername(customer.getUsername());
+        setPassword(customer.getPassword());
+        setName(customer.getName());
+        setPhone(customer.getPhone());
+        setPassport(null);
+        setBirthDate(null);
+        setAdditionalInfo(customer.getAdditionalInfo());
+        setType(customer.getType());
+    }
+
+    public NaturalPerson(NaturalPerson naturalPerson){
+        setId(naturalPerson.getId());
+        setUsername(naturalPerson.getUsername());
+        setPassword(naturalPerson.getPassword());
+        setName(naturalPerson.getName());
+        setPhone(naturalPerson.getPhone());
+        setPassport(naturalPerson.getPassport());
+        setBirthDate(naturalPerson.getBirthDate());
+        setAdditionalInfo(naturalPerson.getAdditionalInfo());
+        setType(naturalPerson.getType());
+    }
+
     public String getPassport() {
         return passport;
     }

@@ -12,7 +12,7 @@ public class Employee extends User {
         setId(null);
         setUsername(null);
         setPassword(null);
-        setUsername(null);
+        setName(null);
         setPosition(null);
     }
 
@@ -22,6 +22,14 @@ public class Employee extends User {
         setPassword(password);
         setName(name);
         setPosition(position);
+    }
+
+    public Employee(Employee employee){
+        setId(employee.getId());
+        setUsername(employee.getUsername());
+        setPassword(employee.getPassword());
+        setName(employee.getName());
+        setPosition(employee.getPosition());
     }
 
     public String getPosition() {

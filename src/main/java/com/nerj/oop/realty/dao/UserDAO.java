@@ -1,9 +1,6 @@
 package com.nerj.oop.realty.dao;
 
-import com.nerj.oop.realty.model.CorporatePersonhood;
-import com.nerj.oop.realty.model.Customer;
-import com.nerj.oop.realty.model.Employee;
-import com.nerj.oop.realty.model.NaturalPerson;
+import com.nerj.oop.realty.model.*;
 
 import java.util.List;
 
@@ -11,8 +8,17 @@ import java.util.List;
  * Created by vlad on 21.01.14.
  */
 public interface UserDAO {
-    public List<NaturalPerson> getNaturalPersons();
-    public List<CorporatePersonhood> getCorporatePersonhoods();
+    public User loginUser(String username, String password);
+    public String getCustomerType(int id);
+    public List<NaturalPerson> listNaturalPersons();
+    public NaturalPerson getNaturalPerson(int id);
+    public void addNaturalPerson(NaturalPerson naturalPerson);
+    public void updateNaturalPerson(NaturalPerson naturalPerson);
+    public List<CorporatePersonhood> listCorporatePersonhoods();
+    public CorporatePersonhood getCorporatePersonhood(int id);
+    public void addCorporatePersonhood(CorporatePersonhood corporatePersonhood);
+    public void updateCorporatePersonhood(CorporatePersonhood corporatePersonhood);
+    public void removeCustomer(int id);
     public List<Employee> listEmployees();
     public Employee getEmployee(int id);
     public void addEmployee(Employee employee);

@@ -12,6 +12,32 @@ public class PrivateSectorRealty extends Realty {
     private Integer numberOfStoreys;
     private Integer numberOfWC;
 
+    public PrivateSectorRealty(){
+        setId(null);
+        setName(null);
+        setAddress(null);
+        setArea(null);
+        setNumberOfRooms(null);
+        setType("private");
+        setResidentialArea(null);
+        setNeighborhoodArea(null);
+        setNumberOfStoreys(null);
+        setNumberOfWC(null);
+    }
+
+    public PrivateSectorRealty(Realty realty){
+        setId(realty.getId());
+        setName(realty.getName());
+        setAddress(realty.getAddress());
+        setArea(realty.getArea());
+        setNumberOfRooms(realty.getNumberOfRooms());
+        setType(realty.getType());
+        setResidentialArea(null);
+        setNeighborhoodArea(null);
+        setNumberOfStoreys(null);
+        setNumberOfWC(null);
+    }
+
     public Double getResidentialArea() {
         return residentialArea;
     }

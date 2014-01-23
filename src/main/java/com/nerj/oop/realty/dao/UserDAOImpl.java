@@ -1,13 +1,12 @@
 package com.nerj.oop.realty.dao;
 
-import com.nerj.oop.realty.model.CorporatePersonhood;
-import com.nerj.oop.realty.model.Employee;
-import com.nerj.oop.realty.model.NaturalPerson;
+import com.nerj.oop.realty.model.*;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.service.ServiceRegistryBuilder;
 
@@ -42,7 +41,20 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public List<NaturalPerson> getNaturalPersons() {
+    public User loginUser(String username, String password) {
+        return (User) session.createCriteria(User.class)
+                .add(Restrictions.eq("username", username.toLowerCase()))
+                .add(Restrictions.eq("password", password))
+                .uniqueResult();
+    }
+
+    @Override
+    public String getCustomerType(int id) {
+        return ((Customer) session.load(Customer.class, id)).getType();
+    }
+
+    @Override
+    public List<NaturalPerson> listNaturalPersons() {
         session = sessionFactory.openSession();
         tx = session.beginTransaction();
         List<NaturalPerson> list = session.createCriteria(NaturalPerson.class).list();
@@ -52,13 +64,82 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public List<CorporatePersonhood> getCorporatePersonhoods() {
+    public NaturalPerson getNaturalPerson(int id) {
+        session = sessionFactory.openSession();
+        tx = session.beginTransaction();
+        NaturalPerson naturalPerson = new NaturalPerson((NaturalPerson) session.load(NaturalPerson.class, id));
+        tx.commit();
+        session.close();
+        return naturalPerson;
+    }
+
+    @Override
+    public void addNaturalPerson(NaturalPerson naturalPerson) {
+        session = sessionFactory.openSession();
+        tx = session.beginTransaction();
+        session.save(naturalPerson);
+        tx.commit();
+        session.close();
+    }
+
+    @Override
+    public void updateNaturalPerson(NaturalPerson naturalPerson) {
+        session = sessionFactory.openSession();
+        tx = session.beginTransaction();
+        session.update(naturalPerson);
+        tx.commit();
+        session.close();
+    }
+
+    @Override
+    public List<CorporatePersonhood> listCorporatePersonhoods() {
         session = sessionFactory.openSession();
         tx = session.beginTransaction();
         List<CorporatePersonhood> list = session.createCriteria(CorporatePersonhood.class).list();
         tx.commit();
         session.close();
         return list;
+    }
+
+    @Override
+    public CorporatePersonhood getCorporatePersonhood(int id) {
+        session = sessionFactory.openSession();
+        tx = session.beginTransaction();
+        CorporatePersonhood corporatePersonhood = new CorporatePersonhood((CorporatePersonhood) session.load(CorporatePersonhood.class, id));
+        tx.commit();
+        session.close();
+        return corporatePersonhood;
+    }
+
+    @Override
+    public void addCorporatePersonhood(CorporatePersonhood corporatePersonhood) {
+        session = sessionFactory.openSession();
+        tx = session.beginTransaction();
+        session.save(corporatePersonhood);
+        tx.commit();
+        session.close();
+    }
+
+    @Override
+    public void updateCorporatePersonhood(CorporatePersonhood corporatePersonhood) {
+        session = sessionFactory.openSession();
+        tx = session.beginTransaction();
+        session.update(corporatePersonhood);
+        tx.commit();
+        session.close();
+    }
+
+    @Override
+    public void removeCustomer(int id) {
+        session = sessionFactory.openSession();
+        tx = session.beginTransaction();
+        Customer customer = (Customer) session.load(Customer.class, id);
+        if (customer.getType().equals("corporate"))
+            session.delete(session.load(CorporatePersonhood.class, id));
+        else if (customer.getType().equals("natural"))
+            session.delete(session.load(NaturalPerson.class, id));
+        tx.commit();
+        session.close();
     }
 
     @Override
@@ -75,7 +156,7 @@ public class UserDAOImpl implements UserDAO {
     public Employee getEmployee(int id) {
         session = sessionFactory.openSession();
         tx = session.beginTransaction();
-        Employee employee = (Employee) session.load(Employee.class, id);
+        Employee employee = new Employee((Employee) session.load(Employee.class, id));
         tx.commit();
         session.close();
         return employee;
