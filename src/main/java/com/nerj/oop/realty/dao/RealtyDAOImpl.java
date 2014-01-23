@@ -13,9 +13,6 @@ import org.hibernate.service.ServiceRegistryBuilder;
 
 import java.util.List;
 
-/**
- * Created by vlad on 21.01.14.
- */
 public class RealtyDAOImpl implements RealtyDAO {
     private static SessionFactory sessionFactory = null;
     private static SessionFactory configureSessionFactory() throws HibernateException {
@@ -42,7 +39,7 @@ public class RealtyDAOImpl implements RealtyDAO {
     }
 
     @Override
-    public List<ResidentialRealty> getResidentialRealty() {
+    public List<ResidentialRealty> listResidentialRealty() {
         session = sessionFactory.openSession();
         tx = session.beginTransaction();
         List<ResidentialRealty> list = session.createCriteria(ResidentialRealty.class).list();
@@ -52,7 +49,7 @@ public class RealtyDAOImpl implements RealtyDAO {
     }
 
     @Override
-    public List<PrivateSectorRealty> getPrivateSectorRealty() {
+    public List<PrivateSectorRealty> listPrivateSectorRealty() {
         session = sessionFactory.openSession();
         tx = session.beginTransaction();
         List<PrivateSectorRealty> list = session.createCriteria(PrivateSectorRealty.class).list();
@@ -62,12 +59,67 @@ public class RealtyDAOImpl implements RealtyDAO {
     }
 
     @Override
-    public List<CommercialRealty> getCommercialRealty() {
+    public List<CommercialRealty> listCommercialRealty() {
         session = sessionFactory.openSession();
         tx = session.beginTransaction();
         List<CommercialRealty> list = session.createCriteria(CommercialRealty.class).list();
         tx.commit();
         session.close();
         return list;
+    }
+
+    @Override
+    public String getRealtyType(int id) {
+        return null;
+    }
+
+    @Override
+    public ResidentialRealty getResidentialRealty(int id) {
+        return null;
+    }
+
+    @Override
+    public void addResidentialRealty(ResidentialRealty residentialRealty) {
+
+    }
+
+    @Override
+    public void updateResidentialRealty(ResidentialRealty residentialRealty) {
+
+    }
+
+    @Override
+    public PrivateSectorRealty getPrivateSectorRealty(int id) {
+        return null;
+    }
+
+    @Override
+    public void addPrivateSectorRealty(PrivateSectorRealty privateSectorRealty) {
+
+    }
+
+    @Override
+    public void updatePrivateSectorRealty(PrivateSectorRealty privateSectorRealty) {
+
+    }
+
+    @Override
+    public CommercialRealty getCommercialRealty(int id) {
+        return null;
+    }
+
+    @Override
+    public void addCommercialRealty(CommercialRealty commercialRealty) {
+
+    }
+
+    @Override
+    public void updateCommercialRealty(CommercialRealty commercialRealty) {
+
+    }
+
+    @Override
+    public void removeRealty(int id) {
+
     }
 }

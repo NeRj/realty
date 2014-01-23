@@ -4,9 +4,6 @@ import com.nerj.oop.realty.model.*;
 
 import java.util.List;
 
-/**
- * Created by vlad on 21.01.14.
- */
 public interface UserDAO {
     public User loginUser(String username, String password);
     public String getCustomerType(int id);

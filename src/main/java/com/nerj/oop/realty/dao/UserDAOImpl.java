@@ -12,9 +12,6 @@ import org.hibernate.service.ServiceRegistryBuilder;
 
 import java.util.List;
 
-/**
- * Created by vlad on 21.01.14.
- */
 public class UserDAOImpl implements UserDAO {
     private static SessionFactory sessionFactory = null;
     private static SessionFactory configureSessionFactory() throws HibernateException {

@@ -7,9 +7,6 @@ import com.nerj.oop.realty.service.RealtyServiceImpl;
 import com.nerj.oop.realty.service.UserService;
 import com.nerj.oop.realty.service.UserServiceImpl;
 
-/**
- * Created by vlad on 15.01.14.
- */
 public class App {
     private static RealtyService realtyService = new RealtyServiceImpl();
     private static UserService userService = new UserServiceImpl();

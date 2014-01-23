@@ -6,9 +6,6 @@ import com.nerj.oop.realty.exception.IncorrectChoiceException;
 import com.nerj.oop.realty.exception.LoginFailedException;
 import com.nerj.oop.realty.model.*;
 
-/**
- * Created by LipenVK on 23.01.14.
- */
 public interface UserService {
     public User login(String username, String password) throws LoginFailedException;
     public void showCustomers() throws EmptyResultException, EmptyStringException, IncorrectChoiceException;

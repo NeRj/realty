@@ -12,9 +12,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by LipenVK on 23.01.14.
- */
 public class UserServiceImpl implements UserService {
     private UserDAO userDAO;
 
