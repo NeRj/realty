@@ -32,9 +32,21 @@ public class UserDAOImpl implements UserDAO {
         try {
             configureSessionFactory();
         } catch (HibernateException ex){
-            ex.printStackTrace();
+            System.out.println(ex.getMessage());
             session = null;
         }
+    }
+
+    @Override
+    public boolean isExists(int id) {
+        session = sessionFactory.openSession();
+        tx = session.beginTransaction();
+        User user = (User) session.createCriteria(User.class)
+                .add(Restrictions.eq("id", id))
+                .uniqueResult();
+        tx.commit();
+        session.close();
+        return user != null;
     }
 
     @Override

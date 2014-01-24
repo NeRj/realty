@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void showCustomers() throws EmptyResultException, EmptyStringException, IncorrectChoiceException {
+    public void showCustomers() throws EmptyResultException, EmptyStringException, IncorrectChoiceException, NotExistsException {
         List<CorporatePersonhood> corporatePersonhoods = userDAO.listCorporatePersonhoods();
         List<NaturalPerson> naturalPersons = userDAO.listNaturalPersons();
         if (corporatePersonhoods.isEmpty() && naturalPersons.isEmpty()) throw new EmptyResultException();
@@ -66,9 +66,11 @@ public class UserServiceImpl implements UserService {
                 throw new EmptyStringException();
             try {
                 Integer id = Integer.parseInt(subChoice);
-                deleteCustomer(id);
+                if (userDAO.isExists(id))
+                    deleteCustomer(id);
+                else throw new NotExistsException();
             } catch (NumberFormatException e){
-                e.printStackTrace();
+                System.out.println(e.getMessage());
             }
         } else if (choice.charAt(0) == 'e'){
             System.out.print("Введите ID клиента: ");
@@ -77,15 +79,17 @@ public class UserServiceImpl implements UserService {
                 throw new EmptyStringException();
             try {
                 Integer id = Integer.parseInt(subChoice);
-                editCustomer(id);
+                if (userDAO.isExists(id))
+                    editCustomer(id);
+                else throw new NotExistsException();
             } catch (NumberFormatException e){
-                e.printStackTrace();
+                System.out.println(e.getMessage());
             }
         } else throw new IncorrectChoiceException();
     }
 
     @Override
-    public void showEmployees() throws EmptyResultException, EmptyStringException, IncorrectChoiceException{
+    public void showEmployees() throws EmptyResultException, EmptyStringException, IncorrectChoiceException, NotExistsException {
         List<Employee> list = userDAO.listEmployees();
         if (list.isEmpty()) throw new EmptyResultException();
         System.out.println("ПОЛЬЗОВАТЕЛИ:");
@@ -107,9 +111,11 @@ public class UserServiceImpl implements UserService {
                 throw new EmptyStringException();
             try {
                 Integer id = Integer.parseInt(subChoice);
-                deleteEmployee(id);
+                if (userDAO.isExists(id))
+                    deleteEmployee(id);
+                else throw new NotExistsException();
             } catch (NumberFormatException e){
-                e.printStackTrace();
+                System.out.println(e.getMessage());
             }
         } else if (choice.charAt(0) == 'e'){
             System.out.print("Введите ID пользователя: ");
@@ -118,9 +124,11 @@ public class UserServiceImpl implements UserService {
                 throw new EmptyStringException();
             try {
                 Integer id = Integer.parseInt(subChoice);
-                editEmployee(id);
+                if (userDAO.isExists(id))
+                    editEmployee(id);
+                else throw new NotExistsException();
             } catch (NumberFormatException e){
-                e.printStackTrace();
+                System.out.println(e.getMessage());
             }
         } else throw new IncorrectChoiceException();
     }
@@ -148,7 +156,7 @@ public class UserServiceImpl implements UserService {
                         corporatePersonhood.setFoundationDate(parseDate(System.console().readLine()));
                         break;
                     } catch (IncorrectDateFormatException e){
-                        e.printStackTrace();
+                        System.out.println(e.getMessage());
                     }
                 }
                 System.out.print("Юридический адрес: ");
@@ -169,7 +177,7 @@ public class UserServiceImpl implements UserService {
                         naturalPerson.setBirthDate(parseDate(System.console().readLine()));
                         break;
                     } catch (IncorrectDateFormatException e){
-                        e.printStackTrace();
+                        System.out.println(e.getMessage());
                     }
                 }
                 System.out.print("Доп. информация: ");
@@ -225,7 +233,7 @@ public class UserServiceImpl implements UserService {
                         corporatePersonhood.setFoundationDate(parseDate(in));
                     break;
                 } catch (IncorrectDateFormatException e){
-                    e.printStackTrace();
+                    System.out.println(e.getMessage());
                 }
             }
             System.out.print("Юридический адрес [" + corporatePersonhood.getCorporateAddress() + "]: ");
@@ -263,7 +271,7 @@ public class UserServiceImpl implements UserService {
                         naturalPerson.setBirthDate(parseDate(in));
                     break;
                 } catch (IncorrectDateFormatException e){
-                    e.printStackTrace();
+                    System.out.println(e.getMessage());
                 }
             }
             System.out.print("Доп. информация [" + naturalPerson.getAdditionalInfo() + "]: ");

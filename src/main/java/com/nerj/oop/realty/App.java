@@ -7,11 +7,19 @@ import com.nerj.oop.realty.service.RealtyServiceImpl;
 import com.nerj.oop.realty.service.UserService;
 import com.nerj.oop.realty.service.UserServiceImpl;
 
+import java.io.UnsupportedEncodingException;
+
 public class App {
     private static RealtyService realtyService = new RealtyServiceImpl();
     private static UserService userService = new UserServiceImpl();
 
     public static void main(String[] args){
+        if (System.getProperty("os.name").toLowerCase().contains("win"))
+            try {
+                System.setOut(new java.io.PrintStream(System.out, true, "Cp866"));
+            } catch (UnsupportedEncodingException e) {
+                System.out.println(e.getMessage());
+            }
 
         if (args.length == 2)
             userService.addUser(args[0], args[1]);
@@ -29,7 +37,7 @@ public class App {
                 user = userService.login(username, password);
                 break;
             } catch (LoginFailedException ex){
-                ex.printStackTrace();
+                System.out.println(ex.getMessage());
             }
         }
 
@@ -45,14 +53,16 @@ public class App {
             try {
                 isQuit = mainMenuChooser(choice, user.getName());
             } catch (IncorrectChoiceException ex) {
-                ex.printStackTrace();
+                System.out.println(ex.getMessage());
             } catch (EmptyStringException ex) {
-                ex.printStackTrace();
+                System.out.println(ex.getMessage());
+            } catch (NotExistsException ex) {
+                System.out.println(ex.getMessage());
             }
         }
     }
 
-    public static boolean mainMenuChooser(String choice, String username) throws IncorrectChoiceException, EmptyStringException {
+    public static boolean mainMenuChooser(String choice, String username) throws IncorrectChoiceException, EmptyStringException, NotExistsException {
         boolean isQuit = false;
 
         if (choice == null || choice.equals(""))
@@ -71,7 +81,7 @@ public class App {
                 default :   throw new IncorrectChoiceException();
             }
         } catch (EmptyResultException ex){
-            ex.printStackTrace();
+            System.out.println(ex.getMessage());
             switch (choice.charAt(0)){
                 case '1' :  System.out.print("Желаете добавить новый объект недвижимости? (y - да)");
                             String answer1 = System.console().readLine();
@@ -90,8 +100,8 @@ public class App {
                             break;
                 default :   throw new IncorrectChoiceException();
             }
-        } catch (EmptyStringException ex) { ex.printStackTrace(); }
-        catch (IncorrectChoiceException ex) { ex.printStackTrace(); }
+        } catch (EmptyStringException ex) { System.out.println(ex.getMessage()); }
+        catch (IncorrectChoiceException ex) { System.out.println(ex.getMessage()); }
         return isQuit;
     }
 }

@@ -7,6 +7,7 @@ import com.nerj.oop.realty.model.ResidentialRealty;
 import java.util.List;
 
 public interface RealtyDAO {
+    public boolean isExists(int id);
     public String getRealtyType(int id);
     public List<ResidentialRealty> listResidentialRealty();
     public ResidentialRealty getResidentialRealty(int id);

@@ -9,6 +9,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.service.ServiceRegistryBuilder;
 
@@ -34,9 +35,21 @@ public class RealtyDAOImpl implements RealtyDAO {
         try {
             configureSessionFactory();
         } catch (HibernateException ex){
-            ex.printStackTrace();
+            System.out.println(ex.getMessage());
             session = null;
         }
+    }
+
+    @Override
+    public boolean isExists(int id) {
+        session = sessionFactory.openSession();
+        tx = session.beginTransaction();
+        Realty realty = (Realty) session.createCriteria(Realty.class)
+                .add(Restrictions.eq("id", id))
+                .uniqueResult();
+        tx.commit();
+        session.close();
+        return realty != null;
     }
 
     @Override

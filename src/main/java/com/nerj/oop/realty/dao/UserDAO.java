@@ -5,6 +5,7 @@ import com.nerj.oop.realty.model.*;
 import java.util.List;
 
 public interface UserDAO {
+    public boolean isExists(int id);
     public void addUser(User user);
     public User loginUser(String username, String password);
     public String getCustomerType(int id);

@@ -78,6 +78,7 @@ public class CorporatePersonhood extends Customer {
 
     public Object[] toArray(){
         return new Object[] {getId(), getName(), getPhone(), getOrganization(),
-                getFoundationDate(), getCorporateAddress(), getAdditionalInfo()};
+                String.format("%td.%tm.%tY", getFoundationDate(), getFoundationDate(), getFoundationDate()),
+                getCorporateAddress(), getAdditionalInfo()};
     }
 }

@@ -64,6 +64,7 @@ public class NaturalPerson extends Customer {
     }
 
     public Object[] toArray(){
-        return new Object[] {getId(), getName(), getPhone(), getPassport(), getBirthDate(), getAdditionalInfo()};
+        return new Object[] {getId(), getName(), getPhone(), getPassport(),
+                String.format("%td.%tm.%tY", getBirthDate(), getBirthDate(), getBirthDate()), getAdditionalInfo()};
     }
 }
