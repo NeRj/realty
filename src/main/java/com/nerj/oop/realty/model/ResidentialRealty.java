@@ -5,7 +5,7 @@ package com.nerj.oop.realty.model;
  */
 public class ResidentialRealty extends Realty {
     public static String[] FIELD_NAMES =
-            {"ID", "Название", "Адрес", "Площадь", "Комнаты", "Жил. площадь", "Площадь кухни",	"Санузел",	"Тип"};
+            {"ID", "Название", "Адрес", "Площадь", "Комнаты", "Жил. площадь", "Площадь кухни",	"Санузел",	"Тип", "Цена"};
 
     private String subtype;
     private Double residentialArea;
@@ -18,6 +18,7 @@ public class ResidentialRealty extends Realty {
         setAddress(null);
         setArea(null);
         setNumberOfRooms(null);
+        setPrice(null);
         setType("residential");
         setResidentialArea(null);
         setKitchenArea(null);
@@ -31,11 +32,26 @@ public class ResidentialRealty extends Realty {
         setAddress(realty.getAddress());
         setArea(realty.getArea());
         setNumberOfRooms(realty.getNumberOfRooms());
+        setPrice(realty.getPrice());
         setType(realty.getType());
         setResidentialArea(null);
         setKitchenArea(null);
         setTypeWC(null);
         setSubtype(null);
+    }
+
+    public ResidentialRealty(ResidentialRealty residentialRealty, boolean isCopy){
+        setId(residentialRealty.getId());
+        setName(residentialRealty.getName());
+        setAddress(residentialRealty.getAddress());
+        setArea(residentialRealty.getArea());
+        setNumberOfRooms(residentialRealty.getNumberOfRooms());
+        setPrice(residentialRealty.getPrice());
+        setType(residentialRealty.getType());
+        setResidentialArea(residentialRealty.getResidentialArea());
+        setKitchenArea(residentialRealty.getKitchenArea());
+        setTypeWC(residentialRealty.getTypeWC());
+        setSubtype(residentialRealty.getSubtype());
     }
 
     public String getSubtype() {
@@ -72,6 +88,6 @@ public class ResidentialRealty extends Realty {
 
     public Object[] toArray(){
         return new Object[] {getId(), getName(), getAddress(), getArea(), getNumberOfRooms(),
-                getResidentialArea(), getKitchenArea(), getTypeWC(), getSubtype()};
+                getResidentialArea(), getKitchenArea(), getTypeWC(), getSubtype(), getPrice()};
     }
 }

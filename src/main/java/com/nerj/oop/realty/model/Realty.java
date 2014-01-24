@@ -4,7 +4,7 @@ package com.nerj.oop.realty.model;
  * Модель недвижимости
  */
 public class Realty {
-    public static String[] FIELD_NAMES = {"ID", "Название", "Адрес", "Площадь", "Комнаты"};
+    public static String[] FIELD_NAMES = {"ID", "Название", "Адрес", "Площадь", "Комнаты", "Цена"};
 
     private Integer id;
     private String type;
@@ -12,6 +12,7 @@ public class Realty {
     private String address;
     private Double area;
     private Integer numberOfRooms;
+    private Double price;
 
     public Integer getId() {
         return id;
@@ -59,6 +60,14 @@ public class Realty {
 
     public void setNumberOfRooms(Integer numberOfRooms) {
         this.numberOfRooms = numberOfRooms;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public void setPrice(Double price) {
+        this.price = price;
     }
 
     public Object[] toArray(){

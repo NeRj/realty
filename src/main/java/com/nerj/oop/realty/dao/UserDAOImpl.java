@@ -38,16 +38,35 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
+    public void addUser(User user) {
+        session = sessionFactory.openSession();
+        tx = session.beginTransaction();
+        session.save(user);
+        tx.commit();
+        session.close();
+    }
+
+    @Override
     public User loginUser(String username, String password) {
-        return (User) session.createCriteria(User.class)
+        session = sessionFactory.openSession();
+        tx = session.beginTransaction();
+        User user = (User) session.createCriteria(User.class)
                 .add(Restrictions.eq("username", username.toLowerCase()))
                 .add(Restrictions.eq("password", password))
                 .uniqueResult();
+        tx.commit();
+        session.close();
+        return user;
     }
 
     @Override
     public String getCustomerType(int id) {
-        return ((Customer) session.load(Customer.class, id)).getType();
+        session = sessionFactory.openSession();
+        tx = session.beginTransaction();
+        String type = ((Customer) session.load(Customer.class, id)).getType();
+        tx.commit();
+        session.close();
+        return type;
     }
 
     @Override
@@ -64,7 +83,7 @@ public class UserDAOImpl implements UserDAO {
     public NaturalPerson getNaturalPerson(int id) {
         session = sessionFactory.openSession();
         tx = session.beginTransaction();
-        NaturalPerson naturalPerson = new NaturalPerson((NaturalPerson) session.load(NaturalPerson.class, id));
+        NaturalPerson naturalPerson = new NaturalPerson((NaturalPerson) session.load(NaturalPerson.class, id), true);
         tx.commit();
         session.close();
         return naturalPerson;
@@ -102,7 +121,7 @@ public class UserDAOImpl implements UserDAO {
     public CorporatePersonhood getCorporatePersonhood(int id) {
         session = sessionFactory.openSession();
         tx = session.beginTransaction();
-        CorporatePersonhood corporatePersonhood = new CorporatePersonhood((CorporatePersonhood) session.load(CorporatePersonhood.class, id));
+        CorporatePersonhood corporatePersonhood = new CorporatePersonhood((CorporatePersonhood) session.load(CorporatePersonhood.class, id), true);
         tx.commit();
         session.close();
         return corporatePersonhood;

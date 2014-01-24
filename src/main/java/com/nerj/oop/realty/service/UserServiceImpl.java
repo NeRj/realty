@@ -20,6 +20,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void addUser(String username, String password) {
+        User user = new User("Admin", username, password);
+        userDAO.addUser(user);
+    }
+
+    @Override
     public User login(String username, String password) throws LoginFailedException {
         User user = userDAO.loginUser(username, password);
         if (user == null)

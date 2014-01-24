@@ -12,6 +12,7 @@
         <property name="address" column="address" />
         <property name="area" column="area" />
         <property name="numberOfRooms" column="number_of_rooms" />
+        <property name="price" column="price" />
 
         <joined-subclass name="com.nerj.oop.realty.model.CommercialRealty">
             <key column="realty_id" />

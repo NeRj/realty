@@ -4,7 +4,7 @@ package com.nerj.oop.realty.model;
  * Модель коммерческой недвижимости
  */
 public class CommercialRealty extends Realty {
-    public static String[] FIELD_NAMES = {"ID", "Название", "Адрес", "Площадь", "Помещения", "Этаж",	"Тип"};
+    public static String[] FIELD_NAMES = {"ID", "Название", "Адрес", "Площадь", "Помещения", "Этаж", "Тип", "Цена"};
 
     private String subtype;
     private Integer storey;
@@ -15,6 +15,7 @@ public class CommercialRealty extends Realty {
         setAddress(null);
         setArea(null);
         setNumberOfRooms(null);
+        setPrice(null);
         setType("commercial");
         setStorey(null);
         setSubtype(null);
@@ -25,10 +26,23 @@ public class CommercialRealty extends Realty {
         setName(realty.getName());
         setAddress(realty.getAddress());
         setArea(realty.getArea());
+        setPrice(realty.getPrice());
         setNumberOfRooms(realty.getNumberOfRooms());
         setType(realty.getType());
         setStorey(null);
         setSubtype(null);
+    }
+
+    public CommercialRealty(CommercialRealty commercialRealty, boolean isCopy){
+        setId(commercialRealty.getId());
+        setName(commercialRealty.getName());
+        setAddress(commercialRealty.getAddress());
+        setArea(commercialRealty.getArea());
+        setNumberOfRooms(commercialRealty.getNumberOfRooms());
+        setPrice(commercialRealty.getPrice());
+        setType(commercialRealty.getType());
+        setStorey(commercialRealty.getStorey());
+        setSubtype(commercialRealty.getSubtype());
     }
 
     public String getSubtype() {
@@ -48,6 +62,6 @@ public class CommercialRealty extends Realty {
     }
 
     public Object[] toArray(){
-        return new Object[] {getId(), getName(), getAddress(), getArea(), getNumberOfRooms(), getStorey(), getSubtype()};
+        return new Object[] {getId(), getName(), getAddress(), getArea(), getNumberOfRooms(), getStorey(), getSubtype(), getPrice()};
     }
 }

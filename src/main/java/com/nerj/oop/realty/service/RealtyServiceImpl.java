@@ -47,7 +47,7 @@ public class RealtyServiceImpl implements RealtyService {
                 data[i] = privateSectorRealties.get(i).toArray();
             printTable(PrivateSectorRealty.FIELD_NAMES, data);
         }
-        if (!residentialRealties.isEmpty()){
+        if (!commercialRealties.isEmpty()){
             System.out.println("НЕЖИЛАЯ НЕДВИЖИМОСТЬ:");
             Object[][] data = new Object[residentialRealties.size()][ResidentialRealty.FIELD_NAMES.length];
             for (int i = 0; i < residentialRealties.size(); i++)
@@ -93,10 +93,24 @@ public class RealtyServiceImpl implements RealtyService {
         realty.setName(System.console().readLine());
         System.out.print("Адрес: ");
         realty.setAddress(System.console().readLine());
-        System.out.print("Общая площадь: ");
-        realty.setArea(Double.parseDouble(System.console().readLine()));
-        System.out.print("Количество комнат/помещений: ");
-        realty.setNumberOfRooms(Integer.parseInt(System.console().readLine()));
+        while (true){
+            System.out.print("Общая площадь: ");
+            try {
+                realty.setArea(Double.parseDouble(System.console().readLine()));
+                break;
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+        while (true){
+            System.out.print("Количество комнат/помещений: ");
+            try {
+                realty.setNumberOfRooms(Integer.parseInt(System.console().readLine()));
+                break;
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }
         while (true){
             System.out.print("Тип (r - квартира, p - частаная, c - нежилая): ");
             String choice = System.console().readLine();
@@ -107,15 +121,15 @@ public class RealtyServiceImpl implements RealtyService {
                 ResidentialRealty residentialRealty = new ResidentialRealty(realty);
                 System.out.print("Жилая площадь: ");
                 residentialRealty.setResidentialArea(Double.parseDouble(System.console().readLine()));
-//                while (true){
+                while (true){
                     System.out.print("Площадь кухни: ");
-//                    try {
+                    try {
                         residentialRealty.setKitchenArea(Double.parseDouble(System.console().readLine()));
-//                        break;
-//                    } catch (IncorrectDateFormatException e){
-//                        e.printStackTrace();
-//                    }
-//                }
+                        break;
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
                 System.out.print("Тип санузла: ");
                 residentialRealty.setTypeWC(System.console().readLine());
                 System.out.print("Тип квартиры: ");
@@ -128,15 +142,15 @@ public class RealtyServiceImpl implements RealtyService {
                 PrivateSectorRealty privateSectorRealty = new PrivateSectorRealty(realty);
                 System.out.print("Жилая площадь: ");
                 privateSectorRealty.setResidentialArea(Double.parseDouble(System.console().readLine()));
-//                while (true){
+                while (true){
                     System.out.print("Площадь прилегающей территории: ");
-//                    try {
+                    try {
                         privateSectorRealty.setNeighborhoodArea(Double.parseDouble(System.console().readLine()));
-//                        break;
-//                    } catch (IncorrectDateFormatException e){
-//                        e.printStackTrace();
-//                    }
-//                }
+                        break;
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
                 System.out.print("Количество этажей: ");
                 privateSectorRealty.setNumberOfStoreys(Integer.parseInt(System.console().readLine()));
                 System.out.print("Количество санузлов: ");
@@ -147,15 +161,15 @@ public class RealtyServiceImpl implements RealtyService {
             } else if (choice.charAt(0) == 'c'){
                 realty.setType("commercial");
                 CommercialRealty commercialRealty = new CommercialRealty(realty);
-//                while (true){
+                while (true){
                     System.out.print("Этаж: ");
-//                    try {
+                    try {
                         commercialRealty.setStorey(Integer.parseInt(System.console().readLine()));
-//                        break;
-//                    } catch (IncorrectDateFormatException e){
-//                        e.printStackTrace();
-//                    }
-//                }
+                        break;
+                    } catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
                 System.out.print("Тип помещения: ");
                 commercialRealty.setSubtype(System.console().readLine());
 
@@ -163,6 +177,16 @@ public class RealtyServiceImpl implements RealtyService {
                 break;
             } else System.out.println("Выберите тип!");
         }
+        while (true){
+            System.out.print("Цена: ");
+            try {
+                realty.setArea(Double.parseDouble(System.console().readLine()));
+                break;
+            } catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+
         System.out.println("Объект недвижимости добавлен!");
     }
 
@@ -181,29 +205,50 @@ public class RealtyServiceImpl implements RealtyService {
             in = System.console().readLine();
             if (in != null && !in.isEmpty() && !in.equals(" "))
                 residentialRealty.setAddress(in);
-            System.out.print("Общая площадь [" + residentialRealty.getArea() + "]: ");
-            in = System.console().readLine();
-            if (in != null && !in.isEmpty() && !in.equals(" "))
-                residentialRealty.setArea(in);
+            while (true){
+                System.out.print("Общая площадь [" + residentialRealty.getArea() + "]: ");
+                in = System.console().readLine();
+                try {
+                    if (in != null && !in.isEmpty() && !in.equals(" "))
+                        residentialRealty.setArea(Double.parseDouble(in));
+                    break;
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
             while (true){
                 System.out.print("Количество комнат [" + residentialRealty.getNumberOfRooms() + "]: ");
                 in = System.console().readLine();
                 try {
                     if (in != null && !in.isEmpty() && !in.equals(" "))
-                        residentialRealty.setNumberOfRooms(parseDate(in));
+                        residentialRealty.setNumberOfRooms(Integer.parseInt(in));
                     break;
-                } catch (IncorrectDateFormatException e){
+                } catch (Exception e){
                     e.printStackTrace();
                 }
             }
-            System.out.print("Жилая площадь [" + residentialRealty.getResidentialArea() + "]: ");
-            in = System.console().readLine();
-            if (in != null && !in.isEmpty() && !in.equals(" "))
-                residentialRealty.setResidentialArea(in);
-            System.out.print("Площадь кухни [" + residentialRealty.getKitchenArea() + "]: ");
-            in = System.console().readLine();
-            if (in != null && !in.isEmpty() && !in.equals(" "))
-                residentialRealty.setKitchenArea(in);
+            while (true){
+                System.out.print("Жилая площадь [" + residentialRealty.getResidentialArea() + "]: ");
+                in = System.console().readLine();
+                try {
+                    if (in != null && !in.isEmpty() && !in.equals(" "))
+                        residentialRealty.setResidentialArea(Double.parseDouble(in));
+                    break;
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+            while (true){
+                System.out.print("Площадь кухни [" + residentialRealty.getKitchenArea() + "]: ");
+                in = System.console().readLine();
+                try {
+                    if (in != null && !in.isEmpty() && !in.equals(" "))
+                        residentialRealty.setKitchenArea(Double.parseDouble(in));
+                    break;
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
             System.out.print("Тип санузла [" + residentialRealty.getTypeWC() + "]: ");
             in = System.console().readLine();
             if (in != null && !in.isEmpty() && !in.equals(" "))
@@ -212,6 +257,17 @@ public class RealtyServiceImpl implements RealtyService {
             in = System.console().readLine();
             if (in != null && !in.isEmpty() && !in.equals(" "))
                 residentialRealty.setSubtype(in);
+            while (true){
+                System.out.print("Цена [" + residentialRealty.getPrice() + "]: ");
+                in = System.console().readLine();
+                try {
+                    if (in != null && !in.isEmpty() && !in.equals(" "))
+                        residentialRealty.setPrice(Double.parseDouble(in));
+                    break;
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
 
             realtyDAO.updateResidentialRealty(residentialRealty);
         } else if (type.equals("private")){
@@ -226,37 +282,83 @@ public class RealtyServiceImpl implements RealtyService {
             in = System.console().readLine();
             if (in != null && !in.isEmpty() && !in.equals(" "))
                 privateSectorRealty.setAddress(in);
-            System.out.print("Общая площадь [" + privateSectorRealty.getArea() + "]: ");
-            in = System.console().readLine();
-            if (in != null && !in.isEmpty() && !in.equals(" "))
-                privateSectorRealty.setArea(in);
+            while (true){
+                System.out.print("Общая площадь [" + privateSectorRealty.getArea() + "]: ");
+                in = System.console().readLine();
+                try {
+                    if (in != null && !in.isEmpty() && !in.equals(" "))
+                        privateSectorRealty.setArea(Double.parseDouble(in));
+                    break;
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
             while (true){
                 System.out.print("Количество комнат [" + privateSectorRealty.getNumberOfRooms() + "]: ");
                 in = System.console().readLine();
                 try {
                     if (in != null && !in.isEmpty() && !in.equals(" "))
-                        privateSectorRealty.setNumberOfRooms(parseDate(in));
+                        privateSectorRealty.setNumberOfRooms(Integer.parseInt(in));
                     break;
-                } catch (IncorrectDateFormatException e){
+                } catch (Exception e){
                     e.printStackTrace();
                 }
             }
-            System.out.print("Жилая площадь [" + privateSectorRealty.getResidentialArea() + "]: ");
-            in = System.console().readLine();
-            if (in != null && !in.isEmpty() && !in.equals(" "))
-                privateSectorRealty.setResidentialArea(in);
-            System.out.print("Площадь прилегающей территории [" + privateSectorRealty.getNeighborhoodArea() + "]: ");
-            in = System.console().readLine();
-            if (in != null && !in.isEmpty() && !in.equals(" "))
-                privateSectorRealty.setNeighborhoodArea(in);
-            System.out.print("Количество этажей [" + privateSectorRealty.getNumberOfStoreys() + "]: ");
-            in = System.console().readLine();
-            if (in != null && !in.isEmpty() && !in.equals(" "))
-                privateSectorRealty.setNumberOfStoreys(in);
-            System.out.print("Количество санузлов [" + privateSectorRealty.getNumberOfWC() + "]: ");
-            in = System.console().readLine();
-            if (in != null && !in.isEmpty() && !in.equals(" "))
-                privateSectorRealty.setNumberOfWC(in);
+            while (true){
+                System.out.print("Жилая площадь [" + privateSectorRealty.getResidentialArea() + "]: ");
+                in = System.console().readLine();
+                try {
+                    if (in != null && !in.isEmpty() && !in.equals(" "))
+                        privateSectorRealty.setResidentialArea(Double.parseDouble(in));
+                    break;
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+            while (true){
+                System.out.print("Площадь прилегающей территории [" + privateSectorRealty.getNeighborhoodArea() + "]: ");
+                in = System.console().readLine();
+                try {
+                    if (in != null && !in.isEmpty() && !in.equals(" "))
+                        privateSectorRealty.setNeighborhoodArea(Double.parseDouble(in));
+                    break;
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+            while (true){
+                System.out.print("Количество этажей [" + privateSectorRealty.getNumberOfStoreys() + "]: ");
+                in = System.console().readLine();
+                try {
+                    if (in != null && !in.isEmpty() && !in.equals(" "))
+                        privateSectorRealty.setNumberOfStoreys(Integer.parseInt(in));
+                    break;
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+            while (true){
+                System.out.print("Количество санузлов [" + privateSectorRealty.getNumberOfWC() + "]: ");
+                in = System.console().readLine();
+                try {
+                    if (in != null && !in.isEmpty() && !in.equals(" "))
+                        privateSectorRealty.setNumberOfWC(Integer.parseInt(in));
+                    break;
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+            while (true){
+                System.out.print("Цена [" + privateSectorRealty.getPrice() + "]: ");
+                in = System.console().readLine();
+                try {
+                    if (in != null && !in.isEmpty() && !in.equals(" "))
+                        privateSectorRealty.setPrice(Double.parseDouble(in));
+                    break;
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
 
             realtyDAO.updatePrivateSectorRealty(privateSectorRealty);
         } else if (type.equals("commercial")){
@@ -271,29 +373,54 @@ public class RealtyServiceImpl implements RealtyService {
             in = System.console().readLine();
             if (in != null && !in.isEmpty() && !in.equals(" "))
                 commercialRealty.setAddress(in);
-            System.out.print("Площадь [" + commercialRealty.getArea() + "]: ");
-            in = System.console().readLine();
-            if (in != null && !in.isEmpty() && !in.equals(" "))
-                commercialRealty.setArea(in);
+            while (true){
+                System.out.print("Площадь [" + commercialRealty.getArea() + "]: ");
+                in = System.console().readLine();
+                try {
+                    if (in != null && !in.isEmpty() && !in.equals(" "))
+                        commercialRealty.setArea(Double.parseDouble(in));
+                    break;
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
             while (true){
                 System.out.print("Количество помещений [" + commercialRealty.getNumberOfRooms() + "]: ");
                 in = System.console().readLine();
                 try {
                     if (in != null && !in.isEmpty() && !in.equals(" "))
-                        commercialRealty.setNumberOfRooms(parseDate(in));
+                        commercialRealty.setNumberOfRooms(Integer.parseInt(in));
                     break;
-                } catch (IncorrectDateFormatException e){
+                } catch (Exception e){
                     e.printStackTrace();
                 }
             }
-            System.out.print("Этаж [" + commercialRealty.getStorey() + "]: ");
-            in = System.console().readLine();
-            if (in != null && !in.isEmpty() && !in.equals(" "))
-                commercialRealty.setStorey(in);
+            while (true){
+                System.out.print("Этаж [" + commercialRealty.getStorey() + "]: ");
+                in = System.console().readLine();
+                try {
+                    if (in != null && !in.isEmpty() && !in.equals(" "))
+                        commercialRealty.setStorey(Integer.parseInt(in));
+                    break;
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
             System.out.print("Тип помещения [" + commercialRealty.getSubtype() + "]: ");
             in = System.console().readLine();
             if (in != null && !in.isEmpty() && !in.equals(" "))
                 commercialRealty.setSubtype(in);
+            while (true){
+                System.out.print("Цена [" + commercialRealty.getPrice() + "]: ");
+                in = System.console().readLine();
+                try {
+                    if (in != null && !in.isEmpty() && !in.equals(" "))
+                        commercialRealty.setPrice(Double.parseDouble(in));
+                    break;
+                } catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
 
             realtyDAO.updateCommercialRealty(commercialRealty);
         }
@@ -311,16 +438,5 @@ public class RealtyServiceImpl implements RealtyService {
         TextTable tt = new TextTable(columnNames, data);
         tt.setSort(0);
         tt.printTable();
-    }
-
-    public Date parseDate(String dateString) throws IncorrectDateFormatException{
-        DateFormat format = new SimpleDateFormat("dd.MM.yyyy");
-        Date date = null;
-        try {
-            date = format.parse(dateString);
-            return date;
-        } catch (ParseException e){
-            throw new IncorrectDateFormatException();
-        }
     }
 }

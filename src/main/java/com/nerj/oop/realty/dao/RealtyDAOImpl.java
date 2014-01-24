@@ -2,6 +2,7 @@ package com.nerj.oop.realty.dao;
 
 import com.nerj.oop.realty.model.CommercialRealty;
 import com.nerj.oop.realty.model.PrivateSectorRealty;
+import com.nerj.oop.realty.model.Realty;
 import com.nerj.oop.realty.model.ResidentialRealty;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
@@ -70,56 +71,110 @@ public class RealtyDAOImpl implements RealtyDAO {
 
     @Override
     public String getRealtyType(int id) {
-        return null;
+        session = sessionFactory.openSession();
+        tx = session.beginTransaction();
+        String type = ((Realty) session.load(Realty.class, id)).getType();
+        tx.commit();
+        session.close();
+        return type;
     }
 
     @Override
     public ResidentialRealty getResidentialRealty(int id) {
-        return null;
+        session = sessionFactory.openSession();
+        tx = session.beginTransaction();
+        ResidentialRealty residentialRealty = new ResidentialRealty((ResidentialRealty) session.load(ResidentialRealty.class, id), true);
+        tx.commit();
+        session.close();
+        return residentialRealty;
     }
 
     @Override
     public void addResidentialRealty(ResidentialRealty residentialRealty) {
-
+        session = sessionFactory.openSession();
+        tx = session.beginTransaction();
+        session.save(residentialRealty);
+        tx.commit();
+        session.close();
     }
 
     @Override
     public void updateResidentialRealty(ResidentialRealty residentialRealty) {
-
+        session = sessionFactory.openSession();
+        tx = session.beginTransaction();
+        session.update(residentialRealty);
+        tx.commit();
+        session.close();
     }
 
     @Override
     public PrivateSectorRealty getPrivateSectorRealty(int id) {
-        return null;
+        session = sessionFactory.openSession();
+        tx = session.beginTransaction();
+        PrivateSectorRealty privateSectorRealty = new PrivateSectorRealty((PrivateSectorRealty) session.load(PrivateSectorRealty.class, id), true);
+        tx.commit();
+        session.close();
+        return privateSectorRealty;
     }
 
     @Override
     public void addPrivateSectorRealty(PrivateSectorRealty privateSectorRealty) {
-
+        session = sessionFactory.openSession();
+        tx = session.beginTransaction();
+        session.save(privateSectorRealty);
+        tx.commit();
+        session.close();
     }
 
     @Override
     public void updatePrivateSectorRealty(PrivateSectorRealty privateSectorRealty) {
-
+        session = sessionFactory.openSession();
+        tx = session.beginTransaction();
+        session.update(privateSectorRealty);
+        tx.commit();
+        session.close();
     }
 
     @Override
     public CommercialRealty getCommercialRealty(int id) {
-        return null;
+        session = sessionFactory.openSession();
+        tx = session.beginTransaction();
+        CommercialRealty commercialRealty = new CommercialRealty((CommercialRealty) session.load(CommercialRealty.class, id), true);
+        tx.commit();
+        session.close();
+        return commercialRealty;
     }
 
     @Override
     public void addCommercialRealty(CommercialRealty commercialRealty) {
-
+        session = sessionFactory.openSession();
+        tx = session.beginTransaction();
+        session.save(commercialRealty);
+        tx.commit();
+        session.close();
     }
 
     @Override
     public void updateCommercialRealty(CommercialRealty commercialRealty) {
-
+        session = sessionFactory.openSession();
+        tx = session.beginTransaction();
+        session.update(commercialRealty);
+        tx.commit();
+        session.close();
     }
 
     @Override
     public void removeRealty(int id) {
-
+        session = sessionFactory.openSession();
+        tx = session.beginTransaction();
+        Realty customer = (Realty) session.load(Realty.class, id);
+        if (customer.getType().equals("residential"))
+            session.delete(session.load(ResidentialRealty.class, id));
+        else if (customer.getType().equals("private"))
+            session.delete(session.load(PrivateSectorRealty.class, id));
+        else if (customer.getType().equals("commercial"))
+            session.delete(session.load(CommercialRealty.class, id));
+        tx.commit();
+        session.close();
     }
 }

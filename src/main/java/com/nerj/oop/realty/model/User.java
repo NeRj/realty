@@ -11,6 +11,20 @@ public class User {
     private String username;
     private String password;
 
+    public User(){
+        setId(null);
+        setName(null);
+        setUsername(null);
+        setPassword(null);
+    }
+
+    public User(String name, String username, String password){
+        setId(null);
+        setName(name);
+        setUsername(username);
+        setPassword(password);
+    }
+
     public Integer getId() {
         return id;
     }

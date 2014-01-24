@@ -39,7 +39,7 @@ public class CorporatePersonhood extends Customer {
         setType(customer.getType());
     }
 
-    public CorporatePersonhood(CorporatePersonhood corporatePersonhood){
+    public CorporatePersonhood(CorporatePersonhood corporatePersonhood, boolean isCopy){
         setId(corporatePersonhood.getId());
         setUsername(corporatePersonhood.getUsername());
         setPassword(corporatePersonhood.getPassword());

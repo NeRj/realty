@@ -7,6 +7,7 @@ import com.nerj.oop.realty.exception.LoginFailedException;
 import com.nerj.oop.realty.model.*;
 
 public interface UserService {
+    public void addUser(String username, String password);
     public User login(String username, String password) throws LoginFailedException;
     public void showCustomers() throws EmptyResultException, EmptyStringException, IncorrectChoiceException;
     public void showEmployees() throws EmptyResultException, EmptyStringException, IncorrectChoiceException ;

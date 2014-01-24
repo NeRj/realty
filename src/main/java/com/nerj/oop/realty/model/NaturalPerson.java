@@ -35,7 +35,7 @@ public class NaturalPerson extends Customer {
         setType(customer.getType());
     }
 
-    public NaturalPerson(NaturalPerson naturalPerson){
+    public NaturalPerson(NaturalPerson naturalPerson, boolean isCopy){
         setId(naturalPerson.getId());
         setUsername(naturalPerson.getUsername());
         setPassword(naturalPerson.getPassword());

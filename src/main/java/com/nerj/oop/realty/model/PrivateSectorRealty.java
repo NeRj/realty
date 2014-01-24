@@ -5,7 +5,7 @@ package com.nerj.oop.realty.model;
  */
 public class PrivateSectorRealty extends Realty {
     public static String[] FIELD_NAMES =
-            {"ID", "Название", "Адрес", "Площадь", "Комнаты", "Жил. площадь", "Прилегающая площадь", "Этажность", "Санузлы"};
+            {"ID", "Название", "Адрес", "Площадь", "Комнаты", "Жил. площадь", "Прилегающая площадь", "Этажность", "Санузлы", "Цена"};
 
     private Double residentialArea;
     private Double neighborhoodArea;
@@ -18,6 +18,7 @@ public class PrivateSectorRealty extends Realty {
         setAddress(null);
         setArea(null);
         setNumberOfRooms(null);
+        setPrice(null);
         setType("private");
         setResidentialArea(null);
         setNeighborhoodArea(null);
@@ -31,11 +32,26 @@ public class PrivateSectorRealty extends Realty {
         setAddress(realty.getAddress());
         setArea(realty.getArea());
         setNumberOfRooms(realty.getNumberOfRooms());
+        setPrice(realty.getPrice());
         setType(realty.getType());
         setResidentialArea(null);
         setNeighborhoodArea(null);
         setNumberOfStoreys(null);
         setNumberOfWC(null);
+    }
+
+    public PrivateSectorRealty(PrivateSectorRealty privateSectorRealty, boolean isCopy){
+        setId(privateSectorRealty.getId());
+        setName(privateSectorRealty.getName());
+        setAddress(privateSectorRealty.getAddress());
+        setArea(privateSectorRealty.getArea());
+        setNumberOfRooms(privateSectorRealty.getNumberOfRooms());
+        setPrice(privateSectorRealty.getPrice());
+        setType(privateSectorRealty.getType());
+        setResidentialArea(privateSectorRealty.getResidentialArea());
+        setNeighborhoodArea(privateSectorRealty.getNeighborhoodArea());
+        setNumberOfStoreys(privateSectorRealty.getNumberOfStoreys());
+        setNumberOfWC(privateSectorRealty.getNumberOfWC());
     }
 
     public Double getResidentialArea() {
@@ -72,6 +88,6 @@ public class PrivateSectorRealty extends Realty {
 
     public Object[] toArray(){
         return new Object[] {getId(), getName(), getAddress(), getArea(), getNumberOfRooms(),
-                getResidentialArea(), getNeighborhoodArea(), getNumberOfStoreys(), getNumberOfWC()};
+                getResidentialArea(), getNeighborhoodArea(), getNumberOfStoreys(), getNumberOfWC(), getPrice()};
     }
 }

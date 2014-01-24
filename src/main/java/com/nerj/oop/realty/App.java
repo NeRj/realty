@@ -13,6 +13,9 @@ public class App {
 
     public static void main(String[] args){
 
+        if (args.length == 2)
+            userService.addUser(args[0], args[1]);
+
         User user = null;
 
         System.out.println("Добро пожаловать! Пожалуйста, авторизируйтесь.");
