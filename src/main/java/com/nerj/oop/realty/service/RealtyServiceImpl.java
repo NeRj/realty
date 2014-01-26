@@ -9,10 +9,6 @@ import com.nerj.oop.realty.model.Realty;
 import com.nerj.oop.realty.model.ResidentialRealty;
 import dnl.utils.text.table.TextTable;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 public class RealtyServiceImpl implements RealtyService {
@@ -328,7 +324,7 @@ public class RealtyServiceImpl implements RealtyService {
                 }
             }
 
-            realtyDAO.updateResidentialRealty(residentialRealty);
+            realtyDAO.updateResidentialRealty(id, residentialRealty);
         } else if (type.equals("private")){
             PrivateSectorRealty privateSectorRealty = realtyDAO.getPrivateSectorRealty(id);
 
@@ -440,7 +436,7 @@ public class RealtyServiceImpl implements RealtyService {
                 }
             }
 
-            realtyDAO.updatePrivateSectorRealty(privateSectorRealty);
+            realtyDAO.updatePrivateSectorRealty(id, privateSectorRealty);
         } else if (type.equals("commercial")){
             CommercialRealty commercialRealty = realtyDAO.getCommercialRealty(id);
 
@@ -514,7 +510,7 @@ public class RealtyServiceImpl implements RealtyService {
                 }
             }
 
-            realtyDAO.updateCommercialRealty(commercialRealty);
+            realtyDAO.updateCommercialRealty(id, commercialRealty);
         }
 
         System.out.println("Объект недвижимости изменен изменен!");

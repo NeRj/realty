@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService {
         if (choice == null || choice.equals(""))
             throw new EmptyStringException();
         else if (choice.charAt(0) == 'a')
-            addEmployee();
+            addCustomer();
         else if (choice.charAt(0) == 'd'){
             System.out.print("Введите ID клиента: ");
             String subChoice = System.console().readLine();
@@ -105,7 +105,7 @@ public class UserServiceImpl implements UserService {
         if (choice == null || choice.equals(""))
             throw new EmptyStringException();
         else if (choice.charAt(0) == 'a')
-            addEmployee();
+            addCustomer();
         else if (choice.charAt(0) == 'd'){
             System.out.print("Введите ID пользователя: ");
             String subChoice = System.console().readLine();
@@ -115,7 +115,7 @@ public class UserServiceImpl implements UserService {
                 Integer id = Integer.parseInt(subChoice);
                 if (id < 0) throw new NegativeNumberException();
                 if (userDAO.isExists(id))
-                    deleteEmployee(id);
+                    deleteCustomer(id);
                 else throw new NotExistsException();
             } catch (NumberFormatException e){
                 System.out.println(e.getMessage());
@@ -129,7 +129,7 @@ public class UserServiceImpl implements UserService {
                 Integer id = Integer.parseInt(subChoice);
                 if (id < 0) throw new NegativeNumberException();
                 if (userDAO.isExists(id))
-                    editEmployee(id);
+                    editCustomer(id);
                 else throw new NotExistsException();
             } catch (NumberFormatException e){
                 System.out.println(e.getMessage());
@@ -230,7 +230,9 @@ public class UserServiceImpl implements UserService {
             if (in != null && !in.isEmpty() && !in.equals(" "))
                 corporatePersonhood.setOrganization(in);
             while (true){
-                System.out.print("Дата регистрации [" + corporatePersonhood.getFoundationDate() + "]: ");
+                System.out.print("Дата регистрации [" +
+                        String.format("%td.%tm.%tY", corporatePersonhood.getFoundationDate(),
+                                corporatePersonhood.getFoundationDate(), corporatePersonhood.getFoundationDate()) + "]: ");
                 in = System.console().readLine();
                 try {
                     if (in != null && !in.isEmpty() && !in.equals(" "))
@@ -249,7 +251,7 @@ public class UserServiceImpl implements UserService {
             if (in != null && !in.isEmpty() && !in.equals(" "))
                 corporatePersonhood.setAdditionalInfo(in);
 
-            userDAO.updateCorporatePersonhood(corporatePersonhood);
+            userDAO.updateCorporatePersonhood(id, corporatePersonhood);
         }
         else if (type.equals("natural")){
             NaturalPerson naturalPerson = userDAO.getNaturalPerson(id);
@@ -268,7 +270,8 @@ public class UserServiceImpl implements UserService {
             if (in != null && !in.isEmpty() && !in.equals(" "))
                 naturalPerson.setPassport(in);
             while (true){
-                System.out.print("Дата рождения [" + naturalPerson.getBirthDate() + "]: ");
+                System.out.print("Дата рождения [" + String.format("%td.%tm.%tY", naturalPerson.getBirthDate(),
+                        naturalPerson.getBirthDate(), naturalPerson.getBirthDate()) + "]: ");
                 in = System.console().readLine();
                 try {
                     if (in != null && !in.isEmpty() && !in.equals(" "))
@@ -283,7 +286,7 @@ public class UserServiceImpl implements UserService {
             if (in != null && !in.isEmpty() && !in.equals(" "))
                 naturalPerson.setAdditionalInfo(in);
 
-            userDAO.updateNaturalPerson(naturalPerson);
+            userDAO.updateNaturalPerson(id, naturalPerson);
         }
 
         System.out.println("Клиент изменен!");
@@ -311,19 +314,19 @@ public class UserServiceImpl implements UserService {
         if (in != null && !in.isEmpty() && !in.equals(" "))
             employee.setPosition(in);
 
-        userDAO.updateEmployee(employee);
+        userDAO.updateEmployee(id, employee);
         System.out.println("Пользователь изменен!");
     }
 
     @Override
     public void deleteCustomer(int id){
-        userDAO.removeCustomer(id);
+        userDAO.removeUser(id);
         System.out.println("Клиент удален!");
     }
 
     @Override
     public void deleteEmployee(int id){
-        userDAO.removeEmployee(id);
+        userDAO.removeUser(id);
         System.out.println("Пользователь удален!");
     }
 

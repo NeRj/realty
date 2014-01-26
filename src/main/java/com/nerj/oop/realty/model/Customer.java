@@ -1,19 +1,20 @@
 package com.nerj.oop.realty.model;
 
+import java.io.Serializable;
+
 /**
  * Модель клиента риелторской организации
  */
-public class Customer extends User {
+public class Customer extends User implements Serializable {
     public static final String[] FIELD_NAMES = {"ID", "Имя", "Телефон", "Доп. инф-ция"};
 
     private String phone;
-    private String type;
     private String additionalInfo;
 
     public Customer(){
         super();
         setPhone(null);
-        setType(null);
+        setType("customer");
         setAdditionalInfo(null);
     }
 
@@ -23,14 +24,6 @@ public class Customer extends User {
 
     public void setPhone(String phone) {
         this.phone = phone;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public String getAdditionalInfo() {

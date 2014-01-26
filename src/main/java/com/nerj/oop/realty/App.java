@@ -15,7 +15,7 @@ public class App {
     private static RealtyService realtyService = new RealtyServiceImpl();
     private static UserService userService = new UserServiceImpl();
 
-//    private static final String FILE_NAME = "users.dat";
+    private static final String[] FILE_NAMES = {"users.dat", "realty.dat"};
 
     public static void main(String[] args){
         if (System.getProperty("os.name").toLowerCase().contains("win"))
@@ -25,15 +25,17 @@ public class App {
                 System.out.println(e.getMessage());
             }
 
+        try {
+            for (String fileName : FILE_NAMES){
+                File file = new File(fileName);
+                if (!file.exists()) file.createNewFile();
+            }
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+
         if (args.length == 2)
             userService.addUser(args[0], args[1]);
-
-//        try {
-//            File file = new File(FILE_NAME);
-//            if (!file.exists()) file.createNewFile();
-//        } catch (IOException e){
-//            e.printStackTrace();
-//        }
 
         User user = null;
 

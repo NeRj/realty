@@ -1,250 +1,383 @@
 package com.nerj.oop.realty.dao;
 
 import com.nerj.oop.realty.model.*;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.criterion.Restrictions;
-import org.hibernate.service.ServiceRegistry;
-import org.hibernate.service.ServiceRegistryBuilder;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class UserDAOImpl implements UserDAO {
-    private static SessionFactory sessionFactory = null;
-    private static SessionFactory configureSessionFactory() throws HibernateException {
-        Configuration configuration = new Configuration();
-        configuration.configure();
 
-        ServiceRegistry serviceRegistry = new ServiceRegistryBuilder().applySettings(configuration.getProperties()).buildServiceRegistry();
-        sessionFactory = configuration.buildSessionFactory(serviceRegistry);
-
-        return sessionFactory;
-    }
-
-    private static Session session = null;
-    private static Transaction tx = null;
-
-//    private static final String FILE_NAME = "users.dat";
-
-
-    public UserDAOImpl(){
-        try {
-            configureSessionFactory();
-        } catch (HibernateException ex){
-            System.out.println(ex.getMessage());
-            session = null;
-        }
-    }
+    private static final String FILE_NAME = "users.dat";
 
     @Override
     public boolean isExists(int id) {
-        session = sessionFactory.openSession();
-        tx = session.beginTransaction();
-        User user = (User) session.createCriteria(User.class)
-                .add(Restrictions.eq("id", id))
-                .uniqueResult();
-        tx.commit();
-        session.close();
+        Map<Integer, Serializable> map = null;
+        try {
+            map = readObjectsFromFile();
+        } catch (IOException e){
+            e.printStackTrace();
+        } catch (ClassNotFoundException e){
+            e.printStackTrace();
+        }
+        User user = null;
+        if (map != null)
+            user = (User) map.get(id);
         return user != null;
     }
 
     @Override
     public void addUser(User user) {
-//        try {
-//            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(FILE_NAME));
-//            int size = 0;
-//            List<User> list = new ArrayList<User>();
-//            try {
-//                size = ois.readInt();
-//                for (int i = 0; i < size; i++)
-//                    list.add((User) ois.readObject());
-//            } catch (EOFException e){
-//                e.printStackTrace();
-//            } finally {
-//                ois.close();
-//            }
-//            user.setId(size);
-//            list.add(user);
-//
-//            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(FILE_NAME));
-//            oos.writeInt(size + 1);
-//            for (int i = 0; i < size + 1; i++)
-//                oos.writeObject(list.get(i));
-//            oos.flush();
-//            oos.close();
-//        } catch (IOException e){
-//            e.printStackTrace();
-//        } catch (ClassNotFoundException e) {
-//            e.printStackTrace();
-//        }
-        session = sessionFactory.openSession();
-        tx = session.beginTransaction();
-        session.save(user);
-        tx.commit();
-        session.close();
+        Map<Integer, Serializable> map = null;
+        try {
+            map = readObjectsFromFile();
+            if (map != null){
+                int lastID = getLastKey(map.keySet());
+                user.setId(lastID + 1);
+                map.put(lastID + 1, user);
+            }
+        } catch (EOFException e){
+            map = new HashMap<Integer, Serializable>();
+            user.setId(0);
+            map.put(0, user);
+        } catch (IOException e){
+            e.printStackTrace();
+        } catch (ClassNotFoundException e){
+            e.printStackTrace();
+        }
+        try {
+            writeObjectsToFile(map);
+        } catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
     @Override
     public User loginUser(String username, String password) {
-        session = sessionFactory.openSession();
-        tx = session.beginTransaction();
-        User user = (User) session.createCriteria(User.class)
-                .add(Restrictions.eq("username", username.toLowerCase()))
-                .add(Restrictions.eq("password", password))
-                .uniqueResult();
-        tx.commit();
-        session.close();
+        Map<Integer, Serializable> map = null;
+        try {
+            map = readObjectsFromFile();
+        } catch (IOException e){
+            e.printStackTrace();
+        } catch (ClassNotFoundException e){
+            e.printStackTrace();
+        }
+        User user = null;
+        if (map != null)
+            for (Map.Entry<Integer, Serializable> entry : map.entrySet()){
+                User tempUser = (User) entry.getValue();
+                if (tempUser.getUsername() != null && tempUser.getPassword() != null)
+                    if (tempUser.getUsername().equals(username) && tempUser.getPassword().equals(password))
+                        user = tempUser;
+            }
         return user;
     }
 
     @Override
     public String getCustomerType(int id) {
-        session = sessionFactory.openSession();
-        tx = session.beginTransaction();
-        String type = ((Customer) session.load(Customer.class, id)).getType();
-        tx.commit();
-        session.close();
-        return type;
+        Map<Integer, Serializable> map = null;
+        try {
+            map = readObjectsFromFile();
+        } catch (IOException e){
+            e.printStackTrace();
+        } catch (ClassNotFoundException e){
+            e.printStackTrace();
+        }
+        Customer customer = null;
+        if (map != null)
+            customer = (Customer) map.get(id);
+        return customer.getType();
     }
 
     @Override
     public List<NaturalPerson> listNaturalPersons() {
-        session = sessionFactory.openSession();
-        tx = session.beginTransaction();
-        List<NaturalPerson> list = session.createCriteria(NaturalPerson.class).list();
-        tx.commit();
-        session.close();
+        Map<Integer, Serializable> map = null;
+        try {
+            map = readObjectsFromFile();
+        } catch (IOException e){
+            e.printStackTrace();
+        } catch (ClassNotFoundException e){
+            e.printStackTrace();
+        }
+        List<NaturalPerson> list = new ArrayList<NaturalPerson>();
+        if (map != null)
+            for (Map.Entry<Integer, Serializable> entry : map.entrySet())
+                if (((User) entry.getValue()).getType().equals("natural"))
+                    list.add((NaturalPerson) entry.getValue());
         return list;
     }
 
     @Override
     public NaturalPerson getNaturalPerson(int id) {
-        session = sessionFactory.openSession();
-        tx = session.beginTransaction();
-        NaturalPerson naturalPerson = new NaturalPerson((NaturalPerson) session.load(NaturalPerson.class, id), true);
-        tx.commit();
-        session.close();
+        Map<Integer, Serializable> map = null;
+        try {
+            map = readObjectsFromFile();
+        } catch (IOException e){
+            e.printStackTrace();
+        } catch (ClassNotFoundException e){
+            e.printStackTrace();
+        }
+        NaturalPerson naturalPerson = null;
+        if (map != null)
+            naturalPerson = (NaturalPerson) map.get(id);
         return naturalPerson;
     }
 
     @Override
     public void addNaturalPerson(NaturalPerson naturalPerson) {
-        session = sessionFactory.openSession();
-        tx = session.beginTransaction();
-        session.save(naturalPerson);
-        tx.commit();
-        session.close();
+        Map<Integer, Serializable> map = null;
+        try {
+            map = readObjectsFromFile();
+        } catch (IOException e){
+            e.printStackTrace();
+        } catch (ClassNotFoundException e){
+            e.printStackTrace();
+        }
+        if (map != null){
+            int lastID = getLastKey(map.keySet());
+            naturalPerson.setId(lastID + 1);
+            map.put(lastID + 1, naturalPerson);
+        } else {
+            map = new HashMap<Integer, Serializable>();
+            naturalPerson.setId(0);
+            map.put(0, naturalPerson);
+        }
+        try {
+            writeObjectsToFile(map);
+        } catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void updateNaturalPerson(NaturalPerson naturalPerson) {
-        session = sessionFactory.openSession();
-        tx = session.beginTransaction();
-        session.update(naturalPerson);
-        tx.commit();
-        session.close();
+    public void updateNaturalPerson(int id, NaturalPerson naturalPerson) {
+        Map<Integer, Serializable> map = null;
+        try {
+            map = readObjectsFromFile();
+        } catch (IOException e){
+            e.printStackTrace();
+        } catch (ClassNotFoundException e){
+            e.printStackTrace();
+        }
+        if (map != null){
+            map.remove(id);
+            naturalPerson.setId(id);
+            map.put(id, naturalPerson);
+        }
+        try {
+            writeObjectsToFile(map);
+        } catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
     @Override
     public List<CorporatePersonhood> listCorporatePersonhoods() {
-        session = sessionFactory.openSession();
-        tx = session.beginTransaction();
-        List<CorporatePersonhood> list = session.createCriteria(CorporatePersonhood.class).list();
-        tx.commit();
-        session.close();
+        Map<Integer, Serializable> map = null;
+        try {
+            map = readObjectsFromFile();
+        } catch (IOException e){
+            e.printStackTrace();
+        } catch (ClassNotFoundException e){
+            e.printStackTrace();
+        }
+        List<CorporatePersonhood> list = new ArrayList<CorporatePersonhood>();
+        if (map != null)
+            for (Map.Entry<Integer, Serializable> entry : map.entrySet())
+                if (((User) entry.getValue()).getType().equals("corporate"))
+                    list.add((CorporatePersonhood) entry.getValue());
         return list;
     }
 
     @Override
     public CorporatePersonhood getCorporatePersonhood(int id) {
-        session = sessionFactory.openSession();
-        tx = session.beginTransaction();
-        CorporatePersonhood corporatePersonhood = new CorporatePersonhood((CorporatePersonhood) session.load(CorporatePersonhood.class, id), true);
-        tx.commit();
-        session.close();
+        Map<Integer, Serializable> map = null;
+        try {
+            map = readObjectsFromFile();
+        } catch (IOException e){
+            e.printStackTrace();
+        } catch (ClassNotFoundException e){
+            e.printStackTrace();
+        }
+        CorporatePersonhood corporatePersonhood = null;
+        if (map != null)
+            corporatePersonhood = (CorporatePersonhood) map.get(id);
         return corporatePersonhood;
     }
 
     @Override
     public void addCorporatePersonhood(CorporatePersonhood corporatePersonhood) {
-        session = sessionFactory.openSession();
-        tx = session.beginTransaction();
-        session.save(corporatePersonhood);
-        tx.commit();
-        session.close();
+        Map<Integer, Serializable> map = null;
+        try {
+            map = readObjectsFromFile();
+        } catch (IOException e){
+            e.printStackTrace();
+        } catch (ClassNotFoundException e){
+            e.printStackTrace();
+        }
+        if (map != null){
+            int lastID = getLastKey(map.keySet());
+            corporatePersonhood.setId(lastID + 1);
+            map.put(lastID + 1, corporatePersonhood);
+        } else {
+            map = new HashMap<Integer, Serializable>();
+            corporatePersonhood.setId(0);
+            map.put(0, corporatePersonhood);
+        }
+        try {
+            writeObjectsToFile(map);
+        } catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void updateCorporatePersonhood(CorporatePersonhood corporatePersonhood) {
-        session = sessionFactory.openSession();
-        tx = session.beginTransaction();
-        session.update(corporatePersonhood);
-        tx.commit();
-        session.close();
-    }
-
-    @Override
-    public void removeCustomer(int id) {
-        session = sessionFactory.openSession();
-        tx = session.beginTransaction();
-        Customer customer = (Customer) session.load(Customer.class, id);
-        if (customer.getType().equals("corporate"))
-            session.delete(session.load(CorporatePersonhood.class, id));
-        else if (customer.getType().equals("natural"))
-            session.delete(session.load(NaturalPerson.class, id));
-        tx.commit();
-        session.close();
+    public void updateCorporatePersonhood(int id, CorporatePersonhood corporatePersonhood) {
+        Map<Integer, Serializable> map = null;
+        try {
+            map = readObjectsFromFile();
+        } catch (IOException e){
+            e.printStackTrace();
+        } catch (ClassNotFoundException e){
+            e.printStackTrace();
+        }
+        if (map != null){
+            map.remove(id);
+            corporatePersonhood.setId(id);
+            map.put(id, corporatePersonhood);
+        }
+        try {
+            writeObjectsToFile(map);
+        } catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
     @Override
     public List<Employee> listEmployees() {
-        session = sessionFactory.openSession();
-        tx = session.beginTransaction();
-        List<Employee> list = session.createCriteria(Employee.class).list();
-        tx.commit();
-        session.close();
+        Map<Integer, Serializable> map = null;
+        try {
+            map = readObjectsFromFile();
+        } catch (IOException e){
+            e.printStackTrace();
+        } catch (ClassNotFoundException e){
+            e.printStackTrace();
+        }
+        List<Employee> list = new ArrayList<Employee>();
+        if (map != null)
+            for (Map.Entry<Integer, Serializable> entry : map.entrySet())
+                if (((User) entry.getValue()).getType().equals("employee"))
+                    list.add((Employee) entry.getValue());
         return list;
     }
 
     @Override
     public Employee getEmployee(int id) {
-        session = sessionFactory.openSession();
-        tx = session.beginTransaction();
-        Employee employee = new Employee((Employee) session.load(Employee.class, id));
-        tx.commit();
-        session.close();
+        Map<Integer, Serializable> map = null;
+        try {
+            map = readObjectsFromFile();
+        } catch (IOException e){
+            e.printStackTrace();
+        } catch (ClassNotFoundException e){
+            e.printStackTrace();
+        }
+        Employee employee = null;
+        if (map != null)
+            employee = (Employee) map.get(id);
         return employee;
     }
 
     @Override
     public void addEmployee(Employee employee) {
-        session = sessionFactory.openSession();
-        tx = session.beginTransaction();
-        session.save(employee);
-        tx.commit();
-        session.close();
+        Map<Integer, Serializable> map = null;
+        try {
+            map = readObjectsFromFile();
+        } catch (IOException e){
+            e.printStackTrace();
+        } catch (ClassNotFoundException e){
+            e.printStackTrace();
+        }
+        if (map != null){
+            int lastID = getLastKey(map.keySet());
+            employee.setId(lastID + 1);
+            map.put(lastID + 1, employee);
+        } else {
+            map = new HashMap<Integer, Serializable>();
+            employee.setId(0);
+            map.put(0, employee);
+        }
+        try {
+            writeObjectsToFile(map);
+        } catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void updateEmployee(Employee employee) {
-        session = sessionFactory.openSession();
-        tx = session.beginTransaction();
-        session.update(employee);
-        tx.commit();
-        session.close();
+    public void updateEmployee(int id, Employee employee) {
+        Map<Integer, Serializable> map = null;
+        try {
+            map = readObjectsFromFile();
+        } catch (IOException e){
+            e.printStackTrace();
+        } catch (ClassNotFoundException e){
+            e.printStackTrace();
+        }
+        if (map != null){
+            map.remove(id);
+            employee.setId(id);
+            map.put(id, employee);
+        }
+        try {
+            writeObjectsToFile(map);
+        } catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void removeEmployee(int id) {
-        session = sessionFactory.openSession();
-        tx = session.beginTransaction();
-        session.delete(session.load(Employee.class, id));
-        tx.commit();
-        session.close();
+    public void removeUser(int id) {
+        Map<Integer, Serializable> map = null;
+        try {
+            map = readObjectsFromFile();
+        } catch (IOException e){
+            e.printStackTrace();
+        } catch (ClassNotFoundException e){
+            e.printStackTrace();
+        }
+        if (map != null){
+            map.remove(id);
+        }
+        try {
+            writeObjectsToFile(map);
+        } catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+
+    private Map<Integer, Serializable> readObjectsFromFile() throws IOException, ClassNotFoundException, EOFException {
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(FILE_NAME));
+        Map<Integer, Serializable> map = null;
+        try {
+            map = (Map<Integer, Serializable>) ois.readObject();
+        } catch (EOFException e){
+            System.out.println("Файл, содержащий пользователей, пуст!");
+        } finally {
+            ois.close();
+        }
+        return map;
+    }
+
+    private void writeObjectsToFile(Map<Integer, Serializable> users) throws IOException {
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(FILE_NAME));
+        oos.writeObject(users);
+        oos.flush();
+        oos.close();
+    }
+
+    private int getLastKey(Set<Integer> keys){
+        int maxKey = 0;
+        for (Integer key : keys)
+            if (key >= maxKey) maxKey = key;
+        return maxKey;
     }
 }

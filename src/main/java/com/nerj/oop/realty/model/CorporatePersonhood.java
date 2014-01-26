@@ -1,11 +1,12 @@
 package com.nerj.oop.realty.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Модель юридического лица
  */
-public class CorporatePersonhood extends Customer {
+public class CorporatePersonhood extends Customer implements Serializable {
     public static String[] FIELD_NAMES =
             {"ID", "Имя", "Телефон", "Организация", "Дата регистрации", "Юр. адрес", "Доп. инф-ция"};
 

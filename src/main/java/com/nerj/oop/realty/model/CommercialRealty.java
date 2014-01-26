@@ -1,9 +1,11 @@
 package com.nerj.oop.realty.model;
 
+import java.io.Serializable;
+
 /**
  * Модель коммерческой недвижимости
  */
-public class CommercialRealty extends Realty {
+public class CommercialRealty extends Realty implements Serializable{
     public static String[] FIELD_NAMES = {"ID", "Название", "Адрес", "Площадь", "Помещения", "Этаж", "Тип", "Цена"};
 
     private String subtype;

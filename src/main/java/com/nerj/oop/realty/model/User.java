@@ -12,12 +12,14 @@ public class User implements Serializable {
     private String name;
     private String username;
     private String password;
+    private String type;
 
     public User(){
         setId(null);
         setName(null);
         setUsername(null);
         setPassword(null);
+        setType(null);
     }
 
     public User(String name, String username, String password){
@@ -25,6 +27,7 @@ public class User implements Serializable {
         setName(name);
         setUsername(username);
         setPassword(password);
+        setType("user");
     }
 
     public Integer getId() {
@@ -61,5 +64,13 @@ public class User implements Serializable {
 
     public Object[] toArray(){
         return new Object[] {getId(), getName()};
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

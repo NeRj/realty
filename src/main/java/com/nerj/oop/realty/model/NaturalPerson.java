@@ -1,11 +1,12 @@
 package com.nerj.oop.realty.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Модель физического лица
  */
-public class NaturalPerson extends Customer {
+public class NaturalPerson extends Customer implements Serializable {
     public static String[] FIELD_NAMES = {"ID", "Имя", "Телефон", "Паспорт", "Дата рождения", "Доп. инф-ция"};
 
     private String passport;
