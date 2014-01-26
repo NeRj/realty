@@ -4,11 +4,18 @@ package com.nerj.oop.realty.model;
  * Модель клиента риелторской организации
  */
 public class Customer extends User {
-    public static String[] FIELD_NAMES = {"ID", "Имя", "Телефон", "Доп. инф-ция"};
+    public static final String[] FIELD_NAMES = {"ID", "Имя", "Телефон", "Доп. инф-ция"};
 
     private String phone;
     private String type;
     private String additionalInfo;
+
+    public Customer(){
+        super();
+        setPhone(null);
+        setType(null);
+        setAdditionalInfo(null);
+    }
 
     public String getPhone() {
         return phone;

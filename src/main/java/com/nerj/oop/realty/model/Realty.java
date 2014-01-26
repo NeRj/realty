@@ -1,10 +1,12 @@
 package com.nerj.oop.realty.model;
 
+import java.io.Serializable;
+
 /**
  * Модель недвижимости
  */
-public class Realty {
-    public static String[] FIELD_NAMES = {"ID", "Название", "Адрес", "Площадь", "Комнаты", "Цена"};
+public class Realty implements Serializable {
+    public static final String[] FIELD_NAMES = {"ID", "Название", "Адрес", "Площадь", "Комнаты", "Цена"};
 
     private Integer id;
     private String type;
@@ -13,6 +15,16 @@ public class Realty {
     private Double area;
     private Integer numberOfRooms;
     private Double price;
+
+    public Realty(){
+        setId(null);
+        setType(null);
+        setName(null);
+        setAddress(null);
+        setArea(null);
+        setNumberOfRooms(null);
+        setPrice(null);
+    }
 
     public Integer getId() {
         return id;

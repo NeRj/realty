@@ -7,11 +7,15 @@ import com.nerj.oop.realty.service.RealtyServiceImpl;
 import com.nerj.oop.realty.service.UserService;
 import com.nerj.oop.realty.service.UserServiceImpl;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 public class App {
     private static RealtyService realtyService = new RealtyServiceImpl();
     private static UserService userService = new UserServiceImpl();
+
+//    private static final String FILE_NAME = "users.dat";
 
     public static void main(String[] args){
         if (System.getProperty("os.name").toLowerCase().contains("win"))
@@ -23,6 +27,13 @@ public class App {
 
         if (args.length == 2)
             userService.addUser(args[0], args[1]);
+
+//        try {
+//            File file = new File(FILE_NAME);
+//            if (!file.exists()) file.createNewFile();
+//        } catch (IOException e){
+//            e.printStackTrace();
+//        }
 
         User user = null;
 
@@ -100,8 +111,13 @@ public class App {
                             break;
                 default :   throw new IncorrectChoiceException();
             }
-        } catch (EmptyStringException ex) { System.out.println(ex.getMessage()); }
-        catch (IncorrectChoiceException ex) { System.out.println(ex.getMessage()); }
+        } catch (EmptyStringException ex) {
+            System.out.println(ex.getMessage());
+        } catch (IncorrectChoiceException ex) {
+            System.out.println(ex.getMessage());
+        } catch (NegativeNumberException ex) {
+            System.out.println(ex.getMessage());
+        }
         return isQuit;
     }
 }

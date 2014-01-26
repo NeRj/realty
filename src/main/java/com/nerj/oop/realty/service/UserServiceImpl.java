@@ -34,7 +34,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void showCustomers() throws EmptyResultException, EmptyStringException, IncorrectChoiceException, NotExistsException {
+    public void showCustomers() throws EmptyResultException, EmptyStringException, IncorrectChoiceException, NotExistsException, NegativeNumberException {
         List<CorporatePersonhood> corporatePersonhoods = userDAO.listCorporatePersonhoods();
         List<NaturalPerson> naturalPersons = userDAO.listNaturalPersons();
         if (corporatePersonhoods.isEmpty() && naturalPersons.isEmpty()) throw new EmptyResultException();
@@ -66,6 +66,7 @@ public class UserServiceImpl implements UserService {
                 throw new EmptyStringException();
             try {
                 Integer id = Integer.parseInt(subChoice);
+                if (id < 0) throw new NegativeNumberException();
                 if (userDAO.isExists(id))
                     deleteCustomer(id);
                 else throw new NotExistsException();
@@ -79,6 +80,7 @@ public class UserServiceImpl implements UserService {
                 throw new EmptyStringException();
             try {
                 Integer id = Integer.parseInt(subChoice);
+                if (id < 0) throw new NegativeNumberException();
                 if (userDAO.isExists(id))
                     editCustomer(id);
                 else throw new NotExistsException();
@@ -89,7 +91,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void showEmployees() throws EmptyResultException, EmptyStringException, IncorrectChoiceException, NotExistsException {
+    public void showEmployees() throws EmptyResultException, EmptyStringException, IncorrectChoiceException, NotExistsException, NegativeNumberException {
         List<Employee> list = userDAO.listEmployees();
         if (list.isEmpty()) throw new EmptyResultException();
         System.out.println("ПОЛЬЗОВАТЕЛИ:");
@@ -111,6 +113,7 @@ public class UserServiceImpl implements UserService {
                 throw new EmptyStringException();
             try {
                 Integer id = Integer.parseInt(subChoice);
+                if (id < 0) throw new NegativeNumberException();
                 if (userDAO.isExists(id))
                     deleteEmployee(id);
                 else throw new NotExistsException();
@@ -124,6 +127,7 @@ public class UserServiceImpl implements UserService {
                 throw new EmptyStringException();
             try {
                 Integer id = Integer.parseInt(subChoice);
+                if (id < 0) throw new NegativeNumberException();
                 if (userDAO.isExists(id))
                     editEmployee(id);
                 else throw new NotExistsException();

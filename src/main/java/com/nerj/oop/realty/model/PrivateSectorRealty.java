@@ -13,12 +13,7 @@ public class PrivateSectorRealty extends Realty {
     private Integer numberOfWC;
 
     public PrivateSectorRealty(){
-        setId(null);
-        setName(null);
-        setAddress(null);
-        setArea(null);
-        setNumberOfRooms(null);
-        setPrice(null);
+        super();
         setType("private");
         setResidentialArea(null);
         setNeighborhoodArea(null);

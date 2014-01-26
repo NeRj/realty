@@ -1,10 +1,12 @@
 package com.nerj.oop.realty.model;
 
+import java.io.Serializable;
+
 /**
  * Модель пользователя системы
  */
-public class User {
-    public static String[] FIELD_NAMES = {"ID", "Имя"};
+public class User implements Serializable {
+    public static final String[] FIELD_NAMES = {"ID", "Имя"};
 
     private Integer id;
     private String name;

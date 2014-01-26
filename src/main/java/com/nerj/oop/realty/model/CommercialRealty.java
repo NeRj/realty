@@ -10,12 +10,7 @@ public class CommercialRealty extends Realty {
     private Integer storey;
 
     public CommercialRealty(){
-        setId(null);
-        setName(null);
-        setAddress(null);
-        setArea(null);
-        setNumberOfRooms(null);
-        setPrice(null);
+        super();
         setType("commercial");
         setStorey(null);
         setSubtype(null);

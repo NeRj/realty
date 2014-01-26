@@ -10,6 +10,8 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.service.ServiceRegistry;
 import org.hibernate.service.ServiceRegistryBuilder;
 
+import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserDAOImpl implements UserDAO {
@@ -26,6 +28,8 @@ public class UserDAOImpl implements UserDAO {
 
     private static Session session = null;
     private static Transaction tx = null;
+
+//    private static final String FILE_NAME = "users.dat";
 
 
     public UserDAOImpl(){
@@ -51,6 +55,33 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public void addUser(User user) {
+//        try {
+//            ObjectInputStream ois = new ObjectInputStream(new FileInputStream(FILE_NAME));
+//            int size = 0;
+//            List<User> list = new ArrayList<User>();
+//            try {
+//                size = ois.readInt();
+//                for (int i = 0; i < size; i++)
+//                    list.add((User) ois.readObject());
+//            } catch (EOFException e){
+//                e.printStackTrace();
+//            } finally {
+//                ois.close();
+//            }
+//            user.setId(size);
+//            list.add(user);
+//
+//            ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(FILE_NAME));
+//            oos.writeInt(size + 1);
+//            for (int i = 0; i < size + 1; i++)
+//                oos.writeObject(list.get(i));
+//            oos.flush();
+//            oos.close();
+//        } catch (IOException e){
+//            e.printStackTrace();
+//        } catch (ClassNotFoundException e) {
+//            e.printStackTrace();
+//        }
         session = sessionFactory.openSession();
         tx = session.beginTransaction();
         session.save(user);

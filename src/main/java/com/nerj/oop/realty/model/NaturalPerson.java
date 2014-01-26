@@ -12,14 +12,9 @@ public class NaturalPerson extends Customer {
     private Date birthDate;
 
     public NaturalPerson(){
-        setId(null);
-        setUsername(null);
-        setPassword(null);
-        setName(null);
-        setPhone(null);
+        super();
         setPassport(null);
         setBirthDate(null);
-        setAdditionalInfo(null);
         setType("corporate");
     }
 

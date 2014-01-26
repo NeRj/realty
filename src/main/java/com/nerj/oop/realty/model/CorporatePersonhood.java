@@ -14,15 +14,10 @@ public class CorporatePersonhood extends Customer {
     private String corporateAddress;
 
     public CorporatePersonhood(){
-        setId(null);
-        setUsername(null);
-        setPassword(null);
-        setName(null);
-        setPhone(null);
+        super();
         setCorporateAddress(null);
         setFoundationDate(null);
         setOrganization(null);
-        setAdditionalInfo(null);
         setType("corporate");
     }
 
