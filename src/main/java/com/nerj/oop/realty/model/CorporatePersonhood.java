@@ -7,7 +7,7 @@ import java.util.Date;
  * Модель юридического лица
  */
 public class CorporatePersonhood extends Customer implements Serializable {
-    public static String[] FIELD_NAMES =
+    public static final String[] FIELD_NAMES =
             {"ID", "Имя", "Телефон", "Организация", "Дата регистрации", "Юр. адрес", "Доп. инф-ция"};
 
     private String organization;

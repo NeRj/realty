@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Модель недвижимости частного сектора
  */
 public class PrivateSectorRealty extends Realty implements Serializable{
-    public static String[] FIELD_NAMES =
+    public static final String[] FIELD_NAMES =
             {"ID", "Название", "Адрес", "Площадь", "Комнаты", "Жил. площадь", "Прилегающая площадь", "Этажность", "Санузлы", "Цена"};
 
     private Double residentialArea;

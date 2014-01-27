@@ -6,7 +6,7 @@ import java.io.Serializable;
  * Модель коммерческой недвижимости
  */
 public class CommercialRealty extends Realty implements Serializable{
-    public static String[] FIELD_NAMES = {"ID", "Название", "Адрес", "Площадь", "Помещения", "Этаж", "Тип", "Цена"};
+    public static final String[] FIELD_NAMES = {"ID", "Название", "Адрес", "Площадь", "Помещения", "Этаж", "Тип", "Цена"};
 
     private String subtype;
     private Integer storey;

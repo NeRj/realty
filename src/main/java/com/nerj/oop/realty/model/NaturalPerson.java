@@ -7,7 +7,7 @@ import java.util.Date;
  * Модель физического лица
  */
 public class NaturalPerson extends Customer implements Serializable {
-    public static String[] FIELD_NAMES = {"ID", "Имя", "Телефон", "Паспорт", "Дата рождения", "Доп. инф-ция"};
+    public static final String[] FIELD_NAMES = {"ID", "Имя", "Телефон", "Паспорт", "Дата рождения", "Доп. инф-ция"};
 
     private String passport;
     private Date birthDate;
