@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
     public User login(String username, String password) throws LoginFailedException {
         User user = userDAO.loginUser(username, password);
         if (user == null)
-            throw new LoginFailedException("Ошибка авторизации! Пользователь " + username + " не найден.");
+            throw new LoginFailedException("Ошибка авторизации! Имя пользователя " + username + " либо пароль указаны не верно.");
         return user;
     }
 
