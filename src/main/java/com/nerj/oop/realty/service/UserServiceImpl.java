@@ -105,7 +105,7 @@ public class UserServiceImpl implements UserService {
         if (choice == null || choice.equals(""))
             throw new EmptyStringException();
         else if (choice.charAt(0) == 'a')
-            addCustomer();
+            addEmployee();
         else if (choice.charAt(0) == 'd'){
             System.out.print("Введите ID пользователя: ");
             String subChoice = System.console().readLine();
@@ -115,7 +115,7 @@ public class UserServiceImpl implements UserService {
                 Integer id = Integer.parseInt(subChoice);
                 if (id < 0) throw new NegativeNumberException();
                 if (userDAO.isExists(id))
-                    deleteCustomer(id);
+                    deleteEmployee(id);
                 else throw new NotExistsException();
             } catch (NumberFormatException e){
                 System.out.println(e.getMessage());
@@ -129,7 +129,7 @@ public class UserServiceImpl implements UserService {
                 Integer id = Integer.parseInt(subChoice);
                 if (id < 0) throw new NegativeNumberException();
                 if (userDAO.isExists(id))
-                    editCustomer(id);
+                    editEmployee(id);
                 else throw new NotExistsException();
             } catch (NumberFormatException e){
                 System.out.println(e.getMessage());
@@ -191,7 +191,7 @@ public class UserServiceImpl implements UserService {
                 break;
             } else System.out.println("Выберите тип!");
         }
-        System.out.println("Пользователь добавлен!");
+        System.out.println("Клиент добавлен!");
     }
 
     @Override

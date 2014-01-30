@@ -42,10 +42,10 @@ public class RealtyServiceImpl implements RealtyService {
         }
         if (!commercialRealties.isEmpty()){
             System.out.println("НЕЖИЛАЯ НЕДВИЖИМОСТЬ:");
-            Object[][] data = new Object[residentialRealties.size()][ResidentialRealty.FIELD_NAMES.length];
-            for (int i = 0; i < residentialRealties.size(); i++)
-                data[i] = residentialRealties.get(i).toArray();
-            printTable(ResidentialRealty.FIELD_NAMES, data);
+            Object[][] data = new Object[commercialRealties.size()][CommercialRealty.FIELD_NAMES.length];
+            for (int i = 0; i < commercialRealties.size(); i++)
+                data[i] = commercialRealties.get(i).toArray();
+            printTable(CommercialRealty.FIELD_NAMES, data);
         }
 
         System.out.print("e - изменить; d - удалить, a - добавить: ");
@@ -148,6 +148,17 @@ public class RealtyServiceImpl implements RealtyService {
                 residentialRealty.setTypeWC(System.console().readLine());
                 System.out.print("Тип квартиры: ");
                 residentialRealty.setSubtype(System.console().readLine());
+                while (true){
+                    System.out.print("Цена: ");
+                    try {
+                        Double in = Double.parseDouble(System.console().readLine());
+                        if (in < 0) in = (double) 0;
+                        residentialRealty.setPrice(in);
+                        break;
+                    } catch (Exception e){
+                        System.out.println(e.getMessage());
+                    }
+                }
 
                 realtyDAO.addResidentialRealty(residentialRealty);
                 break;
@@ -191,6 +202,17 @@ public class RealtyServiceImpl implements RealtyService {
                     }
 
                 }
+                while (true){
+                    System.out.print("Цена: ");
+                    try {
+                        Double in = Double.parseDouble(System.console().readLine());
+                        if (in < 0) in = (double) 0;
+                        privateSectorRealty.setPrice(in);
+                        break;
+                    } catch (Exception e){
+                        System.out.println(e.getMessage());
+                    }
+                }
 
                 realtyDAO.addPrivateSectorRealty(privateSectorRealty);
                 break;
@@ -210,21 +232,21 @@ public class RealtyServiceImpl implements RealtyService {
                 }
                 System.out.print("Тип помещения: ");
                 commercialRealty.setSubtype(System.console().readLine());
+                while (true){
+                    System.out.print("Цена: ");
+                    try {
+                        Double in = Double.parseDouble(System.console().readLine());
+                        if (in < 0) in = (double) 0;
+                        commercialRealty.setPrice(in);
+                        break;
+                    } catch (Exception e){
+                        System.out.println(e.getMessage());
+                    }
+                }
 
                 realtyDAO.addCommercialRealty(commercialRealty);
                 break;
             } else System.out.println("Выберите тип!");
-        }
-        while (true){
-            System.out.print("Цена: ");
-            try {
-                Double in = Double.parseDouble(System.console().readLine());
-                if (in < 0) in = (double) 0;
-                realty.setArea(in);
-                break;
-            } catch (Exception e){
-                System.out.println(e.getMessage());
-            }
         }
 
         System.out.println("Объект недвижимости добавлен!");
